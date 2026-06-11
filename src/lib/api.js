@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const url = process.env.NEXT_PUBLIC_API_URL;
 
@@ -9,19 +10,68 @@ export const apiClient = axios.create({
     },
 });
 
+// apiClient.interceptors.request.use(
+//     (config) => {
+//         if (typeof window !== "undefined") {
+//             const token = window.localStorage.getItem("token");
+
+//             if (token) {
+//                 config.headers.Authorization = `Bearer ${token}`;
+//             }
+//         }
+
+//         return config;
+//     },
+//     (error) => Promise.reject(error)
+// );
+
 apiClient.interceptors.response.use(
     (response) => response,
     (error) => {
-        const backendMessage =
-            error?.response?.data?.message ||
-            error?.response?.data?.error ||
-            error.message || "Something went wrong";
+        const status = error.response?.status;
 
-        return Promise.reject({
-            message: backendMessage,
-            status: error?.response?.status,
-            data: error?.response?.data,
-        });
+        if (status === 401 && typeof window !== "undefined") {
+            const token = localStorage.getItem("token");
+
+            if (token) {
+                localStorage.removeItem("token");
+                localStorage.removeItem("role");
+                toast.error("Session expired. Please login again.");
+
+                setTimeout(() => {
+                    window.location.href = "/login";
+                }, 1500);
+                return Promise.reject("Session expired");
+            }
+        }
+
+        let message = "Something went wrong";
+
+        if (error.response) {
+            switch (status) {
+                case 400:
+                    message = error.response.data?.message || "Bad Request";
+                    break;
+                case 401:
+                    message = error.response.data?.message || "Unauthorized";
+                    break;
+                case 403:
+                    message = error.response.data?.message || "Forbidden";
+                    break;
+                case 404:
+                    message = error.response.data?.message || "Resource Not Found";
+                    break;
+                case 500:
+                    message = error.response.data?.message || "Internal Server Error";
+                    break;
+                default:
+                    message = error.response.data?.message || message;
+            }
+        } else if (error.request) {
+            message = "Network error. Please check your internet connection.";
+        }
+
+        return Promise.reject(message);
     }
 );
 
