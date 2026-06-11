@@ -11,10 +11,10 @@ import useUsers from "@/hooks/useUsers";
 export default function UserManagement({ initialUsers = [], initialPagination }) {
     const [createUser, setCreateUser] = useState({
         name: "",
-        userName: "",
+        userName: "", 
         email: "",
         password: "",
-        contact: "",
+        contact: "", 
     });
     const [editUserId, setEditUserId] = useState(null);
     const [search, setSearch] = useState("");
@@ -71,55 +71,6 @@ export default function UserManagement({ initialUsers = [], initialPagination })
             contact: user.contact,
         });
         setEditUserId(user._id);
-    }
-
-    async function handleUpdateUser(e) {
-        e.preventDefault();
-
-        const validateErrors = validateUser(createUser, users, editUserId, true);
-        if (Object.keys(validateErrors).length > 0) {
-            setErrors(validateErrors);
-            return;
-        }
-
-        try {
-            const payload = {
-                name: createUser.name,
-                userName: createUser.userName,
-                email: createUser.email,
-                contact: createUser.contact,
-            };
-
-            if (createUser.password.trim()) {
-                payload.password = createUser.password;
-            }
-            await UpdateUsers(editUserId, payload);
-            fetchUsers(currentPage);
-            toast.success("User updated successfully");
-
-            setCreateUser({
-                name: "",
-                userName: "",
-                email: "",
-                password: "",
-                contact: "",
-            });
-            setErrors({});
-            setEditUserId(null);
-            dialogRef.current?.close();
-        } catch (err) {
-            toast.error(err.response?.data?.message || "Failed to update user");
-        }
-    }
-
-    async function handleDeleteUser(userId) {
-        try {
-            await DeleteUser(userId);
-            fetchUsers(currentPage);
-            toast.success("User deleted successfully");
-        } catch (err) {
-            toast.error(err.response?.data?.message || "Failed to delete user");
-        }
     }
 
     const handleCreateDialog = () => {
@@ -222,18 +173,7 @@ export default function UserManagement({ initialUsers = [], initialPagination })
                                         <td>{user.userName}</td>
                                         <td>{user.email}</td>
                                         <td>{user.contact}</td>
-                                        <td>
-                                            <div className="action-btns">
-                                                <Button
-                                                    onClick={() => handleEditDialog(user)}
-                                                    label="Update"
-                                                />
-                                                <Button
-                                                    onClick={() => handleDeleteUser(user._id)}
-                                                    label="Delete"
-                                                />
-                                            </div>
-                                        </td>
+                                        
                                     </tr>
                                 ))}
                             </tbody>

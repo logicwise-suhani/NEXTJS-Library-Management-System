@@ -14,7 +14,7 @@ export default function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        try {
+        try { 
             const data = await login(form);
             localStorage.setItem("token", data.token);
             localStorage.setItem("role", data.role);

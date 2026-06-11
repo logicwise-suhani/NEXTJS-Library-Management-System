@@ -6,4 +6,4 @@ export const getAuthHeaders = () => {
     return token
         ? { Authorization: `Bearer ${token}` }
         : {};
-};
+}; 

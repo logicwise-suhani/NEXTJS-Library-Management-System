@@ -11,7 +11,7 @@ export default function useUsers(initialUsers = [], initialPagination = {}) {
     const [loading, setLoading] = useState(false);
 
     const firstRender = useRef(true);
-    const limit = 10; 
+    const limit = 10;
 
     const fetchUsers = async (page) => {
         try {
@@ -24,9 +24,7 @@ export default function useUsers(initialUsers = [], initialPagination = {}) {
             setCurrentPage(response.pagination.currentPage);
             setTotalPages(response.pagination.totalPages);
         } catch (err) {
-            toast.error(
-                err?.response?.data?.message || "Failed to fetch users"
-            );
+            toast.error(err?.response?.data?.message || "Failed to fetch users");
         } finally {
             setLoading(false);
         }
