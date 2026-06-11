@@ -33,6 +33,7 @@ export async function GetUsers({ page = 1, limit = 10 }) {
             headers: getAuthHeaders(),
         }
     );
+
     return {
         users: res.data.data.users,
         pagination: res.data.data.pagination
