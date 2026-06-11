@@ -3,6 +3,7 @@
 import { useActionState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import Button from "@/components/Button";
 
 const initialState = {
     success: false,
@@ -14,10 +15,7 @@ const initialState = {
 export default function Login({ createFormAction }) {
     const router = useRouter();
 
-    const [state, formAction, pending] = useActionState(
-        createFormAction,
-        initialState
-    );
+    const [state, formAction, pending] = useActionState(createFormAction, initialState);
 
     useEffect(() => {
         if (state?.error) {
@@ -31,36 +29,39 @@ export default function Login({ createFormAction }) {
                 localStorage.setItem("role", state.role);
             }
 
-            setTimeout(() => {
-                if (state?.role === "ADMIN") {
-                    router.push("/admin");
-                } else {
-                    router.push("/user");
-                }
-            }, 500);
+            if (state?.role === "ADMIN") {
+                router.push("/admin");
+            } else {
+                router.push("/user");
+            }
+
         }
     }, [state, router]);
 
     return (
-        <form action={formAction}>
+        <div className="login">
+            <div className="form">
+                <form action={formAction}>
 
-            <label>Email:</label>
-            <input
-                type="email"
-                name="email"
-            />
+                    <label>Email:</label>
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="Enter Email"
+                    />
 
-            <br />
-            <label>Password:</label>
-            <input
-                type="password"
-                name="password"
-            />
+                    <br />
+                    <label>Password:</label>
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Enter Password"
+                    />
 
-            <br />
-            <button type="submit" disabled={pending}>
-                {pending ? "Logging in..." : "Login"}
-            </button>
-        </form>
+                    <br />
+                    <Button type="submit" disabled={pending} label={pending ? "Logging in..." : "Login"} />
+                </form>
+            </div>
+        </div>
     );
 }

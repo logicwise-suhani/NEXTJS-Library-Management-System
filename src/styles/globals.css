@@ -47,3 +47,96 @@ a {
     color-scheme: dark;
   }
 }
+
+.all-buttons button {
+  cursor: pointer;
+  background-color: darkcyan;
+  outline: none;
+  border: none;
+  border-radius: 10px;
+  padding: 7px;
+  font-family: Lucida Sans Unicode;
+  font-size: 16px;
+}
+
+.form {
+  border: 2px solid darkcyan;
+  padding: 20px;
+  border-radius: 10px;
+  position: fixed;
+  top: 200px;
+  left: 750px;
+}
+
+.form form {
+  color: white;
+  font-family: Lucida Sans Unicode;
+  font-size: 25px;
+  text-align: center;
+}
+
+.form input {
+  border-radius: 10px;
+  border: 2px solid white;
+  padding: 7px;
+  outline: none;
+  background-color: black;
+  color: white;
+  font-family: Lucida Sans Unicode;
+  font-size: 16px;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 225px;
+  right: 0;
+  height: 70px;
+  background-color: darkcyan;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 25px;
+  color: white;
+  font-family: "Lucida Sans Unicode";
+  font-size: 18px;
+  z-index: 1000;
+}
+
+.navbar h3 {
+  margin: 0;
+}
+
+.side-panel {
+  height: 100vh;
+  background-color: darkcyan;
+  width: 225px;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
+.side-panel h3 {
+  color: darkblue;
+  font-family: Lucida Sans Unicode;
+  font-size: 30px;
+  text-align: center;
+}
+
+.side-panel-btns {
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.side-panel-btns Button {
+  padding: 10px 46px;
+  border-bottom: 2px solid white;
+  margin: 7px;
+}
+
+.side-panel-btns Button:hover {
+  border-bottom: 2px solid rgb(0, 97, 97);
+  color: black;
+}
