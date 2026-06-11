@@ -1,12 +1,12 @@
 "use client"
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Button from "@/components/Button";
 import Navbar from "@/components/Navbar";
 import { useRouter } from "next/navigation";
 
 export default function AdminDashboard() {
-    const [state, setState] = useState("users");
+
     const router = useRouter();
 
     useEffect(() => {
