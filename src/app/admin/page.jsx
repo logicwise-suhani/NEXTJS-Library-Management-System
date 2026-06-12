@@ -1,13 +1,10 @@
 "use client"
 
 import { useEffect } from "react";
-import Button from "@/components/Button";
 import Navbar from "@/components/Navbar";
-import { useRouter } from "next/navigation";
+import SidePanel from "@/components/SidePanel";
 
 export default function AdminDashboard() {
-
-    const router = useRouter();
 
     useEffect(() => {
         const handlePopState = () => {
@@ -23,15 +20,9 @@ export default function AdminDashboard() {
     return (
         <>
             <div className="admin-dashboard">
-                <div>
+                <div className="manage-section">
                     <Navbar />
-                    <div className="side-panel">
-                        <h3>Library</h3>
-                        <div className="side-panel-btns">
-                            <Button onClick={() => router.push("/admin/users")} label="Manage Users" />
-                            <Button onClick={() => router.push("/admin/books")} label="Manage Library" />
-                        </div>
-                    </div>
+                    <SidePanel />
                 </div>
 
                 <div className="display-section">

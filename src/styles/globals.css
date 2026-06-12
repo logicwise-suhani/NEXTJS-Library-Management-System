@@ -137,7 +137,7 @@ a {
 }
 
 .side-panel-btns Button:hover {
-  border-bottom: 2px solid rgb(0, 97, 97);
+  border-bottom: 2px solid rgb(0, 97, 97); 
   color: black;
 }
 

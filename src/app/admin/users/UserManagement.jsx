@@ -146,7 +146,7 @@ export default function UserManagement({ initialUsers = [], initialPagination })
             fetchUsers(currentPage);
             toast.success("User Deleted Successfully");
         } catch (err) {
-            toast.error(err.response?.data?.message || " Failed to delete user")
+            toast.error(err.response?.data?.message || "Failed to delete user")
         }
     }
 
@@ -207,7 +207,7 @@ export default function UserManagement({ initialUsers = [], initialPagination })
                                         <td>{user.email}</td>
                                         <td>{user.contact}</td>
                                         <td>
-                                            <div>
+                                            <div className="action-btns">
                                                 <Button onClick={() => handleEditDialog(user)} label="Update" />
                                                 <Button onClick={() => handleDelete(user._id)} label="Delete" />
                                             </div>
