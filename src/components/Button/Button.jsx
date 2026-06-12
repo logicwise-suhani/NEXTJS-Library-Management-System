@@ -1,13 +1,15 @@
 "use client"
 
+import styles from "./button.module.css";
+
 export default function Button({ onClick, label }) {
 
     return (
         <>
-            <div className="all-buttons">
+            <div className={styles.allButtons}>
                 <button onClick={onClick}>{label}</button>
             </div>
         </>
     )
 
-};
+}; 

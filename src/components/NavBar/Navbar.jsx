@@ -1,8 +1,10 @@
+import styles from "./navbar.module.css";
+
 export default function Navbar() {
 
     return (
         <>
-            <div className="navbar">
+            <div className={styles.navbar}>
                 <h3>
                     Library Management System
                 </h3>
@@ -10,4 +12,4 @@ export default function Navbar() {
 
         </>
     )
-}; 
+};  

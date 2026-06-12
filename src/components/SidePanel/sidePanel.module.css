@@ -1,0 +1,33 @@
+.sidePanel {
+  height: 100vh;
+  background-color: darkcyan;
+  width: 225px;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
+.sidePanel h3 {
+  color: darkblue;
+  font-family: Lucida Sans Unicode;
+  font-size: 30px;
+  text-align: center;
+}
+
+.sidePanelBtns {
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.sidePanelBtns Button {
+  padding: 10px 46px;
+  border-bottom: 2px solid white;
+  margin: 7px;
+}
+
+.sidePanelBtns Button:hover {
+  border-bottom: 2px solid rgb(0, 97, 97);
+  color: black;
+}

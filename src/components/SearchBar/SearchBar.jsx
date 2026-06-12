@@ -1,7 +1,9 @@
+import styles from "./searchbar.module.css";
+
 function SearchBar({ value, onChange }) {
 
     return (
-        <div className="search-bar">
+        <div className={styles.searchBar}>
             <input
                 type="text"
                 placeholder="Search..."

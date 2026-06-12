@@ -1,0 +1,14 @@
+.searchBar {
+  padding: 10px;
+  display: flex;
+}
+
+.searchBar input {
+  border: 2px solid wheat;
+  outline: none;
+  border-radius: 10px;
+  padding: 6px;
+  background-color: black;
+  color: white;
+  font-size: 16px;
+}

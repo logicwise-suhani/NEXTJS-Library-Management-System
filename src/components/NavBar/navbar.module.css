@@ -1,0 +1,20 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 225px;
+  right: 0;
+  height: 70px;
+  background-color: darkcyan;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 25px;
+  color: white;
+  font-family: "Lucida Sans Unicode";
+  font-size: 18px;
+  z-index: 1000;
+}
+
+.navbar h3 {
+  margin: 0;
+}
