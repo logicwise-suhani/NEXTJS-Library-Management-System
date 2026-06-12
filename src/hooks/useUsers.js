@@ -37,7 +37,7 @@ export default function useUsers(initialUsers = [], initialPagination = {}) {
             firstRender.current = false;
             return;
         }
-
+ 
         fetchUsers(currentPage);
     }, [currentPage]);
 

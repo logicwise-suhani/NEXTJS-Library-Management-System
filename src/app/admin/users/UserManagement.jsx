@@ -101,6 +101,45 @@ export default function UserManagement({ initialUsers = [], initialPagination })
             user.userName.toLowerCase().includes(search.toLowerCase()) || user.contact.toString().includes(search)
     );
 
+    async function handleUpdateUser(e) {
+        e.preventDefault();
+
+        const validateErrors = validateUser(createUser, users, editUserId, true);
+        if (Object.keys(validateErrors).length > 0) {
+            setErrors(validateErrors);
+            return;
+        }
+
+        try {
+            const payload = {
+                name: createUser.name,
+                userName: createUser.userName,
+                email: createUser.email,
+                contact: createUser.contact,
+            };
+
+            if (createUser.password.trim()) {
+                payload.password = createUser.password;
+            }
+            await UpdateUsers(editUserId, payload);
+            fetchUsers(currentPage);
+            toast.success("User updated successfully");
+
+            setCreateUser({
+                name: "",
+                userName: "",
+                email: "",
+                password: "",
+                contact: "",
+            });
+            setErrors({});
+            setEditUserId(null);
+            dialogRef.current?.close();
+        } catch (err) {
+            toast.error(err.response?.data?.message || "Failed to update user");
+        }
+    }
+
     return (
         <>
             <div className="manage-users">
@@ -146,6 +185,7 @@ export default function UserManagement({ initialUsers = [], initialPagination })
                                     <th>userName</th>
                                     <th>Email</th>
                                     <th>Contact</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
 
@@ -156,6 +196,12 @@ export default function UserManagement({ initialUsers = [], initialPagination })
                                         <td>{user.userName}</td>
                                         <td>{user.email}</td>
                                         <td>{user.contact}</td>
+                                        <td>
+                                            <div>
+                                                <Button onClick={handleUpdateUser} label="Update" />
+                                                <Button onClick={handleDelete} label="Delete" />
+                                            </div>
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>

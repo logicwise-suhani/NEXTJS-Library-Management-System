@@ -25,7 +25,7 @@ export async function DeleteUser(userId) {
         }
     );
     return res.data;
-};
+}; 
 
 export async function GetUsers({ page = 1, limit = 10 }) {
     const res = await apiClient.get(`/user?page=${page}&limit=${limit}`,
