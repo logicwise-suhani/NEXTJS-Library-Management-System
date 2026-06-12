@@ -6,41 +6,19 @@ import Button from "@/components/Button/Button";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { fields } from "@/utils/formFields";
+import { validate } from "@/utils/adminValidation";
 
 export default function Login() {
     const [form, setForm] = useState({ email: "", password: "" });
     const [errors, setErrors] = useState({ email: "", password: "" });
-
     const router = useRouter();
-
-    const validate = () => {
-        let valid = true;
-        let newErrors = { email: "", password: "" };
-
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!form.email) {
-            newErrors.email = "Email is required";
-            valid = false;
-        } else if (!emailRegex.test(form.email)) {
-            newErrors.email = "Enter a valid email address";
-            valid = false;
-        }
-
-        if (!form.password) {
-            newErrors.password = "Password is required";
-            valid = false;
-        } else if (form.password.length < 6) {
-            newErrors.password = "Password must be at least 6 characters";
-            valid = false;
-        }
-
-        setErrors(newErrors);
-        return valid;
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!validate()) return;
+
+        const { valid, newErrors } = validate(form);
+        setErrors(newErrors);
+        if (!valid) return;
 
         try {
             const data = await login(form);
@@ -62,9 +40,7 @@ export default function Login() {
         setErrors({ ...errors, [e.target.name]: "" });
     };
 
-    const loginFields = fields.filter((field) =>
-        ["email", "password"].includes(field.name)
-    );
+    const loginFields = fields.filter((field) => ["email", "password"].includes(field.name));
 
     return (
         <div className="login">
