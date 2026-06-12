@@ -51,7 +51,6 @@ export default function useUserFunction({ search, users, currentPage, fetchUsers
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-
         setCreateUser((prev) => ({ ...prev, [name]: value, }));
         if (errors[name]) {
             setErrors((prev) => ({ ...prev, [name]: "", }));
