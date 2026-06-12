@@ -8,4 +8,4 @@ export default function UsersPage() {
     return (
         <UserManagement initialUsers={response.users} initialPagination={response.pagination} />
     );
-}    
+}     

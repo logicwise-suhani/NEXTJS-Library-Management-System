@@ -4,7 +4,7 @@ import Button from "@/components/Button/Button";
 import SearchBar from "@/components/SearchBar/SearchBar";
 import useUsers from "@/hooks/useUsers";
 import { fields } from "@/utils/formFields";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useUserFunction from "@/hooks/useUserFunctions";
 
 export default function UserManagement({ initialUsers = [], initialPagination }) {
@@ -15,6 +15,17 @@ export default function UserManagement({ initialUsers = [], initialPagination })
 
     const { handleCreateUser, handleUpdateUser, handleEditDialog, handleCreateDialog, handleDelete, handleChange,
         handleDialogClose, dialogRef, editUserId, createUser, errors, filteredUsers } = useUserFunction({ search, users, currentPage, fetchUsers });
+
+    useEffect(() => {
+        const handlePopState = () => {
+            window.history.go(1);
+        };
+        window.addEventListener("popstate", handlePopState);
+        window.history.pushState(null, "", window.location.href);
+        return () => {
+            window.removeEventListener("popstate", handlePopState);
+        };
+    }, []);
 
     if (loading) {
         return <p>Loading users...</p>;
@@ -30,7 +41,7 @@ export default function UserManagement({ initialUsers = [], initialPagination })
                     <form onSubmit={editUserId ? handleUpdateUser : handleCreateUser}>
                         {fields.map((field) => (
                             <div key={field.name}>
-                                <input 
+                                <input
                                     type={field.type}
                                     name={field.name}
                                     placeholder={field.placeholder}
