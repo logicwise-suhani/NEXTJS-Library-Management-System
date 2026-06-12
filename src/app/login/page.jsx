@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { fields } from "@/utils/formFields";
 import { validate } from "@/utils/adminValidation";
+import Image from "next/image";
 
 export default function Login() {
     const [form, setForm] = useState({ email: "", password: "" });
@@ -44,6 +45,14 @@ export default function Login() {
 
     return (
         <div className="login">
+
+            <div className="library-image">
+                <Image src="/library.jpg" alt="Library" width={500} height={500} loading="eager" />
+            </div>
+
+            <div className="lib-text">
+                <h1>Welcome to Library!</h1>
+            </div>
             <div className="form">
                 <form onSubmit={handleSubmit}>
                     {loginFields.map((field) => (

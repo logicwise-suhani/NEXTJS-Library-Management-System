@@ -6,7 +6,7 @@ export default function AdminLayout({ children }) {
     return (
         <ProtectedRoute allowedRole="ADMIN">
             {children}
-            <Navbar /> 
+            <Navbar />
             <SidePanel />
         </ProtectedRoute>
     )
