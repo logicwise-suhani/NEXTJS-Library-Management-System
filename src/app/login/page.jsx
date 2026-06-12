@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { login } from "@/lib/api";
-import Button from "@/components/Button";
+import Button from "@/components/Button/Button";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { fields } from "@/utils/formFields";
 
 export default function Login() {
 
@@ -13,8 +14,8 @@ export default function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
- 
-        try { 
+
+        try {
             const data = await login(form);
             localStorage.setItem("token", data.token);
             localStorage.setItem("role", data.role);
@@ -26,12 +27,14 @@ export default function Login() {
             }
         } catch (err) {
             toast.error(err);
-        } 
+        }
     }
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value })
     }
+
+    const loginFields = fields.filter((field) => ["email", "password"].includes(field.name));
 
     return (
         <>
@@ -39,24 +42,18 @@ export default function Login() {
 
                 <div className="form">
                     <form onSubmit={handleSubmit}>
-
-                        Email:{" "}
-                        <input
-                            name="email"
-                            placeholder="Email"
-                            onChange={handleChange}
-                        />
-
-                        <br /> <br />
-                        Password:{" "}
-                        <input
-                            type="password"
-                            name="password"
-                            placeholder="Password"
-                            onChange={handleChange}
-                        />
-
-                        <br /> <br />
+                        {loginFields.map((field) => (
+                            <div key={field.name}>
+                                <label>{field.name === "email" ? "Email"
+                                    : field.name === "password" ? "Password"
+                                        : field.name}: </label>
+                                <input
+                                    name={field.name}
+                                    placeholder={field.placeholder}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                        ))}
                         <Button type="submit" label="Login" />
                     </form>
                 </div>

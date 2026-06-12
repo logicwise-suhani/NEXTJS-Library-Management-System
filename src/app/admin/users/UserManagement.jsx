@@ -1,7 +1,7 @@
 "use client"
 
-import Button from "@/components/Button";
-import SearchBar from "@/components/SearchBar";
+import Button from "@/components/Button/Button";
+import SearchBar from "@/components/SearchBar/SearchBar";
 import useUsers from "@/hooks/useUsers";
 import { fields } from "@/utils/formFields";
 import { useState } from "react";
@@ -30,7 +30,7 @@ export default function UserManagement({ initialUsers = [], initialPagination })
                     <form onSubmit={editUserId ? handleUpdateUser : handleCreateUser}>
                         {fields.map((field) => (
                             <div key={field.name}>
-                                <input
+                                <input 
                                     type={field.type}
                                     name={field.name}
                                     placeholder={field.placeholder}

@@ -5,4 +5,4 @@ export const fields = [
     { name: "password", placeholder: "Password", type: "password" },
     { name: "contact", placeholder: "Contact", type: "text" },
 ];
-  
+    
