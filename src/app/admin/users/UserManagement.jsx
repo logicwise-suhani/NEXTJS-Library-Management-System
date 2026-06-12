@@ -140,6 +140,16 @@ export default function UserManagement({ initialUsers = [], initialPagination })
         }
     }
 
+    const handleDelete = async (userId) => {
+        try {
+            await DeleteUser(userId);
+            fetchUsers(currentPage);
+            toast.success("User Deleted Successfully");
+        } catch (err) {
+            toast.error(err.response?.data?.message || " Failed to delete user")
+        }
+    }
+
     return (
         <>
             <div className="manage-users">
@@ -198,8 +208,8 @@ export default function UserManagement({ initialUsers = [], initialPagination })
                                         <td>{user.contact}</td>
                                         <td>
                                             <div>
-                                                <Button onClick={handleUpdateUser} label="Update" />
-                                                <Button onClick={handleDelete} label="Delete" />
+                                                <Button onClick={() => handleEditDialog(user)} label="Update" />
+                                                <Button onClick={() => handleDelete(user._id)} label="Delete" />
                                             </div>
                                         </td>
                                     </tr>
