@@ -1,4 +1,5 @@
 function SearchBar({ value, onChange }) {
+
     return (
         <div className="search-bar">
             <input
@@ -11,4 +12,4 @@ function SearchBar({ value, onChange }) {
     );
 }
 
-export default SearchBar; 
+export default SearchBar;  

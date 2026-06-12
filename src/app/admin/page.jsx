@@ -2,7 +2,6 @@
 
 import { useEffect } from "react";
 import Navbar from "@/components/Navbar";
-import SidePanel from "@/components/SidePanel";
 
 export default function AdminDashboard() {
 
@@ -22,7 +21,6 @@ export default function AdminDashboard() {
             <div className="admin-dashboard">
                 <div className="manage-section">
                     <Navbar />
-                    <SidePanel />
                 </div>
 
                 <div className="display-section">
