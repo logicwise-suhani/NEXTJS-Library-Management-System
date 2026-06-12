@@ -28,7 +28,6 @@ export default function useUserFunction({ search, users, currentPage, fetchUsers
     };
 
     const handleDialogClose = () => {
-        resetForm();
         dialogRef.current?.close();
     };
 
@@ -51,8 +50,12 @@ export default function useUserFunction({ search, users, currentPage, fetchUsers
     }
 
     const handleChange = (e) => {
-        setCreateUser({ ...createUser, [e.target.name]: e.target.value });
-        setErrors({ ...errors, [e.target.name]: "" });
+        const { name, value } = e.target;
+
+        setCreateUser((prev) => ({ ...prev, [name]: value, }));
+        if (errors[name]) {
+            setErrors((prev) => ({ ...prev, [name]: "", }));
+        }
     };
 
     function handleEditClick(user) {
