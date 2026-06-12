@@ -7,14 +7,15 @@ import SearchBar from "@/components/SearchBar";
 import { toast } from "react-toastify";
 import { validateUser } from "@/utils/userValidation";
 import useUsers from "@/hooks/useUsers";
+import { fields } from "@/utils/formFields";
 
 export default function UserManagement({ initialUsers = [], initialPagination }) {
     const [createUser, setCreateUser] = useState({
         name: "",
-        userName: "", 
+        userName: "",
         email: "",
         password: "",
-        contact: "", 
+        contact: "",
     });
     const [editUserId, setEditUserId] = useState(null);
     const [search, setSearch] = useState("");
@@ -25,7 +26,7 @@ export default function UserManagement({ initialUsers = [], initialPagination })
 
     if (loading) {
         return <p>Loading users...</p>;
-    } 
+    }
 
     async function handleCreateUser(e) {
         e.preventDefault();
@@ -108,45 +109,28 @@ export default function UserManagement({ initialUsers = [], initialPagination })
                         <Button onClick={handleDialogClose} label="❌" />
                     </div>
                     <form onSubmit={editUserId ? handleUpdateUser : handleCreateUser}>
-                        <input
-                            name="name"
-                            placeholder="Name"
-                            value={createUser.name}
-                            onChange={handleChange}
-                        />{errors.name && <p style={{ color: "red" }}>{errors.name}</p>}
-                        <br />
-                        <input
-                            name="userName"
-                            placeholder="userName"
-                            value={createUser.userName}
-                            onChange={handleChange}
-                        />{errors.userName && <p style={{ color: "red" }}>{errors.userName}</p>}
-                        <br />
-                        <input
-                            name="email"
-                            placeholder="Email"
-                            value={createUser.email}
-                            onChange={handleChange}
-                        />{errors.email && <p style={{ color: "red" }}>{errors.email}</p>}
-                        <br />
-                        <input
-                            type="password"
-                            name="password"
-                            placeholder="Password"
-                            value={createUser.password}
-                            onChange={handleChange}
-                        />{errors.password && <p style={{ color: "red" }}>{errors.password}</p>}
-                        <br />
-                        <input
-                            name="contact"
-                            placeholder="Contact"
-                            value={createUser.contact}
-                            onChange={handleChange}
-                        />{errors.contact && <p style={{ color: "red" }}>{errors.contact}</p>}
-                        <br />
-                        {errors.duplicate && (<p style={{ color: "red" }}>{errors.duplicate}</p>)}
+                        {fields.map((field) => (
+                            <div key={field.name}>
+                                <input
+                                    type={field.type}
+                                    name={field.name}
+                                    placeholder={field.placeholder}
+                                    value={createUser[field.name]}
+                                    onChange={handleChange}
+                                />
+
+                                {errors[field.name] && (
+                                    <p style={{ color: "red" }}>
+                                        {errors[field.name]}
+                                    </p>
+                                )}
+
+                                <br />
+                            </div>
+                        ))}
                         <Button type="submit" label={editUserId ? "Update" : "Create"} />
                     </form>
+
                 </dialog>
 
                 {users.length > 0 ? (
@@ -162,7 +146,6 @@ export default function UserManagement({ initialUsers = [], initialPagination })
                                     <th>userName</th>
                                     <th>Email</th>
                                     <th>Contact</th>
-                                    <th>Action</th>
                                 </tr>
                             </thead>
 
@@ -173,7 +156,6 @@ export default function UserManagement({ initialUsers = [], initialPagination })
                                         <td>{user.userName}</td>
                                         <td>{user.email}</td>
                                         <td>{user.contact}</td>
-                                        
                                     </tr>
                                 ))}
                             </tbody>

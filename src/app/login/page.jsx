@@ -13,7 +13,7 @@ export default function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+ 
         try { 
             const data = await login(form);
             localStorage.setItem("token", data.token);
@@ -26,7 +26,7 @@ export default function Login() {
             }
         } catch (err) {
             toast.error(err);
-        }
+        } 
     }
 
     const handleChange = (e) => {
