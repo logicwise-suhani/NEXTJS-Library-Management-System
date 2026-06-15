@@ -8,14 +8,18 @@ export default function useBooks(initialBooks = []) {
 
     const [books, setBooks] = useState(initialBooks);
     const firstRender = useRef(true);
+    const [loading, setLoading] = useState(false);
 
     const fetchBooks = async () => {
         try {
+            setLoading(true);
             const response = await GetBooks();
             console.log("Response in client: ", response)
             setBooks(response.data);
         } catch (err) {
             toast.error(err.response?.data?.message || "Failed to fetch books");
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -27,9 +31,5 @@ export default function useBooks(initialBooks = []) {
         fetchBooks();
     }, [])
 
-
-
-    return {
-        books,
-    }
+    return { books, loading };
 }

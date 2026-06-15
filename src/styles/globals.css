@@ -77,7 +77,8 @@ a {
   object-fit: cover;
 }
 
-.manage-users {
+.manage-users,
+.manage-books {
   margin: 70px 650px;
   padding: 20px 40px;
 }
@@ -120,5 +121,36 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 80px;
+}
+
+.issue-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 250px;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+.issue-btns > div {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  align-items: center;
+  padding: 6px;
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  background: transparent;
+}
+
+.issue-btns span {
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+}
+
+.issue-btns button {
+  padding: 5px 10px;
+  font-size: 12px;
+  border-radius: 6px;
 }
