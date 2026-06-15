@@ -9,6 +9,7 @@ import { fields } from "@/utils/formFields";
 import { validate } from "@/utils/adminValidation";
 import Image from "next/image";
 import Form from "@/components/Form/Form";
+import styles from "@/components/Form/form.module.css";
 
 export default function Login() {
     const [form, setForm] = useState({ email: "", password: "" });
@@ -52,9 +53,9 @@ export default function Login() {
             </div>
 
             <div className="lib-text">
-                <h1>Welcome to Library!</h1>
+                <h1>Welcome  <br /> to Library!</h1>
             </div>
-            <div className="form">
+            <div className={styles.form}>
                 <Form
                     fields={loginFields}
                     values={form}

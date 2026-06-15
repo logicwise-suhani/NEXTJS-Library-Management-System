@@ -7,6 +7,7 @@ import { fields } from "@/utils/formFields";
 import { useEffect, useState } from "react";
 import useUserFunction from "@/hooks/useUserFunctions";
 import Form from "@/components/Form/Form";
+import styles from "@/components/Form/form.module.css";
 
 export default function UserManagement({ initialUsers = [], initialPagination }) {
     const [search, setSearch] = useState("");
@@ -35,8 +36,8 @@ export default function UserManagement({ initialUsers = [], initialPagination })
     return (
         <>
             <div className="manage-users">
-                <dialog ref={dialogRef} className="dialog-form">
-                    <div className="close-mark">
+                <dialog ref={dialogRef} className={styles.dialogForm}>
+                    <div className={styles.closeMark}>
                         <Button onClick={handleDialogClose} label="❌" />
                     </div>
                     <Form

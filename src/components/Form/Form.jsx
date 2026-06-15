@@ -9,8 +9,7 @@ export default function Form({ fields, values, errors,
                 >
                     {showLabels && (
                         <label>
-                            {field.label || field.name}
-                            {" "}
+                            {field.label || field.name} {" "}
                         </label>
                     )}
 
@@ -28,11 +27,10 @@ export default function Form({ fields, values, errors,
                     />
 
                     {errors[field.name] && (
-                        <p
-                            style={{
-                                color: "red",
-                                fontSize: "12px",
-                            }}
+                        <p style={{
+                            color: "red",
+                            fontSize: "12px",
+                        }}
                         >
                             {errors[field.name]}
                         </p>
