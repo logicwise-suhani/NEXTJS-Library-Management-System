@@ -115,3 +115,10 @@ a {
   border: none;
   font-weight: bold;
 }
+
+.view-books {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 80px;
+}

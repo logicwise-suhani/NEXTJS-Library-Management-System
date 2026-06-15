@@ -29,8 +29,8 @@ export default function UserManagement({ initialUsers = [], initialPagination })
         };
     }, []);
 
-    if (loading) {
-        return <p>Loading users...</p>;
+     if (loading) {
+        return <p style={{ textAlign: "center", marginTop: "250px" }}>Loading users...</p>;
     }
 
     return (

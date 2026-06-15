@@ -11,7 +11,7 @@ export default function useUsers(initialUsers = [], initialPagination = {}) {
     const [loading, setLoading] = useState(false);
 
     const firstRender = useRef(true);
-    const limit = 10;
+    const limit = 10; 
  
     const fetchUsers = async (page) => {
         try {
