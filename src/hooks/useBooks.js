@@ -1,5 +1,3 @@
-"use client"
-
 import { GetBooks } from "@/services/BookService"
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
@@ -31,5 +29,5 @@ export default function useBooks(initialBooks = []) {
         fetchBooks();
     }, [])
 
-    return { books, loading };
+    return { books, setBooks, loading, fetchBooks };
 }

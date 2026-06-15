@@ -1,17 +1,20 @@
 "use client"
 
 import Button from "@/components/Button/Button";
+import Form from "@/components/Form/Form";
 import SearchBar from "@/components/SearchBar/SearchBar";
 import useBookFunction from "@/hooks/useBookFunctions";
 import useBooks from "@/hooks/useBooks";
+import { bookFields } from "@/utils/formFields";
 import { useEffect, useState } from "react";
 
 export default function BookManagement() {
-    const { books, loading } = useBooks();
+    const { books, setBooks, loading } = useBooks();
 
     const [search, setSearch] = useState("");
 
-    const { setSelectedBookId, setSelectedSerial, setShowIssueModal } = useBookFunction();
+    const { setSelectedBookId, setSelectedSerial, setShowIssueModal, editBookId, dialogRef,
+        handleCreateBook, handleUpdateBook, handleChange, createBook, errors, handleCreateDialog } = useBookFunction(books, setBooks);
 
     useEffect(() => {
         const handlePopState = () => {
@@ -33,6 +36,28 @@ export default function BookManagement() {
     return (
         <>
             <div className="manage-books">
+
+                <dialog ref={dialogRef} className="dialog-form">
+                    <div className="close-mark">
+                        <Button onClick={() => dialogRef.current?.close()} label="❌" />
+                    </div>
+
+                    <Form
+                        fields={bookFields}
+                        onSubmit={editBookId ? handleUpdateBook : handleCreateBook}
+                        onChange={handleChange}
+                        values={createBook}
+                        errors={errors}
+                        submitButton={<Button type="submit" label={editBookId ? "Update" : "Create"} />}
+                        showLabels={true}
+                    >
+                        <h4>Serial Numbers</h4>
+                    </Form>
+                </dialog>
+
+                <div className="dialog-open-btn">
+                    <Button onClick={handleCreateDialog} label="Create +" />
+                </div>
 
                 <SearchBar value={search} onChange={setSearch} />
                 <div className="view-books">
@@ -84,7 +109,7 @@ export default function BookManagement() {
                         </tbody>
                     </table >
                 </div>
-            </div>
+            </div >
         </>
     )
 }

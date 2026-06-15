@@ -1,5 +1,5 @@
 export default function Form({ fields, values, errors,
-    onChange, onSubmit, showLabels = false, submitButton }) {
+    onChange, onSubmit, showLabels = false, children, submitButton }) {
     return (
         <form onSubmit={onSubmit}>
             {fields.map((field) => (
@@ -37,7 +37,7 @@ export default function Form({ fields, values, errors,
                     )}
                 </div>
             ))}
-
+            {children}
             {submitButton}
         </form>
     );
