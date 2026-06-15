@@ -6,6 +6,7 @@ import useUsers from "@/hooks/useUsers";
 import { fields } from "@/utils/formFields";
 import { useEffect, useState } from "react";
 import useUserFunction from "@/hooks/useUserFunctions";
+import Form from "@/components/Form/Form";
 
 export default function UserManagement({ initialUsers = [], initialPagination }) {
     const [search, setSearch] = useState("");
@@ -38,29 +39,19 @@ export default function UserManagement({ initialUsers = [], initialPagination })
                     <div className="close-mark">
                         <Button onClick={handleDialogClose} label="❌" />
                     </div>
-                    <form onSubmit={editUserId ? handleUpdateUser : handleCreateUser}>
-                        {fields.map((field) => (
-                            <div key={field.name}>
-                                <input
-                                    type={field.type}
-                                    name={field.name}
-                                    placeholder={field.placeholder}
-                                    value={createUser[field.name] ?? ""}
-                                    onChange={handleChange}
-                                />
-
-                                {errors[field.name] && (
-                                    <p style={{ color: "red" }}>
-                                        {errors[field.name]}
-                                    </p>
-                                )}
-
-                                <br />
-                            </div>
-                        ))}
-                        <Button type="submit" label={editUserId ? "Update" : "Create"} />
-                    </form>
-
+                    <Form
+                        fields={fields}
+                        values={createUser}
+                        errors={errors}
+                        onChange={handleChange}
+                        onSubmit={
+                            editUserId
+                                ? handleUpdateUser
+                                : handleCreateUser
+                        }
+                        submitButton={
+                            <Button type="submit" label={editUserId ? "Update" : "Create"} />}
+                    />
                 </dialog>
 
                 {users.length > 0 ? (

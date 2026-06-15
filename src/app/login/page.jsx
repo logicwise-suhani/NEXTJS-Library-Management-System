@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { fields } from "@/utils/formFields";
 import { validate } from "@/utils/adminValidation";
 import Image from "next/image";
+import Form from "@/components/Form/Form";
 
 export default function Login() {
     const [form, setForm] = useState({ email: "", password: "" });
@@ -54,37 +55,17 @@ export default function Login() {
                 <h1>Welcome to Library!</h1>
             </div>
             <div className="form">
-                <form onSubmit={handleSubmit}>
-                    {loginFields.map((field) => (
-                        <div key={field.name} style={{ marginBottom: "12px" }}>
-                            <label>
-                                {field.name === "email" ? "Email"
-                                    : field.name === "password" ? "Password"
-                                        : field.name}: {' '}
-                            </label>
-
-                            <input
-                                name={field.name}
-                                placeholder={field.placeholder}
-                                type={field.name === "password" ? "password" : "text"}
-                                value={form[field.name]}
-                                onChange={handleChange}
-                                style={{
-                                    border: errors[field.name]
-                                        ? "1px solid red"
-                                        : "1px solid #ccc",
-                                }}
-                            />
-                            {errors[field.name] && (
-                                <p style={{ color: "red", fontSize: "12px" }}>
-                                    {errors[field.name]}
-                                </p>
-                            )}
-                        </div>
-                    ))}
-
-                    <Button type="submit" label="Login" />
-                </form>
+                <Form
+                    fields={loginFields}
+                    values={form}
+                    errors={errors}
+                    onChange={handleChange}
+                    onSubmit={handleSubmit}
+                    showLabels={true}
+                    submitButton={
+                        <Button type="submit" label="Login" />
+                    }
+                />
             </div>
         </div>
     );
