@@ -70,6 +70,15 @@
   font-family: Lucida Sans Unicode;
 }
 
+.dialogForm input[type="radio"] {
+  width: 20px;
+  transition: none;
+}
+
+.dialogForm input[type="radio"]:focus {
+  box-shadow: none;
+}
+
 .dialogForm input:focus {
   border-color: darkcyan;
   box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);

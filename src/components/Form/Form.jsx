@@ -14,8 +14,8 @@ export default function Form({ fields, values, errors,
                                 >
                                     <option value="">-- Select --</option>
                                     {field.options.map((values) => (
-                                        <option key={values._id} value={values._id}>
-                                            {values.name}
+                                        <option key={values._id || values} value={values._id || values}>
+                                            {values.name || values}
                                         </option>
                                     ))}
                                 </select>
@@ -33,24 +33,36 @@ export default function Form({ fields, values, errors,
 
                     case "radio":
                         return (
-                            field.options.map((option) => (
-                                <label key={option} style={{
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    justifyContent: "flex-start",
-                                    alignItems: "center",
-                                    gap: "4px",
-                                }}>
-                                    {option}
-                                    <input
-                                        type="radio"
-                                        value={option}
-                                        onChange={onChange}
-                                        name={field.name}
-                                        checked={(field.defaultValue ?? values[field.name]) === option}
-                                    />
-                                </label>
-                            ))
+                            <div key={field.name}>
+                                {field.options.map((option) => (
+                                    <label key={option} style={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        justifyContent: "flex-start",
+                                        alignItems: "center",
+                                        gap: "4px",
+                                        width: "20px",
+                                    }}>
+                                        {option}
+                                        <input
+                                            type="radio"
+                                            value={option}
+                                            onChange={onChange}
+                                            name={field.name}
+                                        // checked={(field.defaultValue ?? values[field.name]) === option}
+                                        />
+                                    </label>
+                                ))}
+                                {errors[field.name] && (
+                                    <p style={{
+                                        color: "red",
+                                        fontSize: "14px",
+                                    }}
+                                    >
+                                        {errors[field.name]}
+                                    </p>
+                                )}
+                            </div>
                         )
 
                     default:

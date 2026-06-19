@@ -1,0 +1,25 @@
+.dashboardCard {
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  background: peachpuff;
+  font-weight: 600;
+  font-size: 24px;
+}
+
+.dashboardCard h3 {
+  margin-top: 20px;
+}
+
+.dashboardCard p {
+  margin-bottom: 20px;
+  font-size: 40px;
+}
+
+.dashboard {
+  display: flex;
+  gap: 25px;
+  justify-content: space-between;
+  align-items: center;
+  color: black;
+}

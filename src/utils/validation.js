@@ -114,7 +114,7 @@ export const validateBook = (book) => {
 
 export const validate = (form) => {
     let valid = true;
-    let newErrors = { email: "", password: "" };
+    let newErrors = { email: "", password: "", login: "" };
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!form.email) {
@@ -130,6 +130,11 @@ export const validate = (form) => {
         valid = false;
     } else if (form.password.length < 8) {
         newErrors.password = "Password must be at least 8 characters";
+        valid = false;
+    }
+
+    if (!form.login) {
+        newErrors.login = "Please select a role!";
         valid = false;
     }
 

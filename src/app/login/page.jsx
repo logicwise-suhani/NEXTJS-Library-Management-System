@@ -12,8 +12,8 @@ import Form from "@/components/Form/Form";
 import styles from "@/components/Form/form.module.css";
 
 export default function Login() {
-    const [form, setForm] = useState({ email: "", password: "" });
-    const [errors, setErrors] = useState({ email: "", password: "" });
+    const [form, setForm] = useState({ email: "", password: "", login: "" });
+    const [errors, setErrors] = useState({ email: "", password: "", login: "" });
     const router = useRouter();
 
     const handleSubmit = async (e) => {
@@ -43,7 +43,6 @@ export default function Login() {
         setErrors({ ...errors, [e.target.name]: "" });
     };
 
-    // console.log('allFields.loginForm', allFields.loginForm, loginFields)
     return (
         <div className="login">
 
@@ -62,9 +61,7 @@ export default function Login() {
                     onChange={handleChange}
                     onSubmit={handleSubmit}
                     showLabels={true}
-                    submitButton={
-                        <Button type="submit" label="Login" />
-                    }
+                    submitButton={<Button type="submit" label="Login" />}
                 />
             </div>
         </div>

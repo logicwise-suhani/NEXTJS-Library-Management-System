@@ -1,6 +1,7 @@
 "use client"
 
 import Button from "@/components/Button/Button";
+import Dashboard from "@/components/Dashboard/Dashboard";
 import DialogForm from "@/components/Form/DialogForm";
 import IssueBookModal from "@/components/IssueModal/IssueBookModal";
 import SearchBar from "@/components/SearchBar/SearchBar";
@@ -11,6 +12,7 @@ import { GetUsers } from "@/services/UserService";
 import { allFields, bookFields } from "@/utils/formFields";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import styles from "./books.module.css";
 
 export default function BookManagement() {
     const { books, setBooks, loading } = useBooks();
@@ -19,7 +21,7 @@ export default function BookManagement() {
 
     const { setSelectedBookId, setSelectedSerial, setShowIssueModal, editBookId, dialogRef,
         handleCreateBook, handleUpdateBook, handleBookChange, createBook, bookErrors, handleCreateBookDialog, showIssueModal,
-        handleCopyChange, addCopyField, removeCopyField, handleEditBookDialog, handleDeleteBook, submitIssueBook, selectedSerial } = useBookFunction(books, setBooks);
+        handleCopyChange, addCopyField, removeCopyField, handleEditBookDialog, handleDeleteBook, submitIssueBook, selectedSerial, handleReturn } = useBookFunction(books, setBooks);
 
     const [selectedType, setSelectedType] = useState("addBookForm");
     const currentFields = allFields[selectedType] || bookFields || [];
@@ -60,7 +62,7 @@ export default function BookManagement() {
 
     return (
         <>
-            <div className="manage-books">
+            <div className={styles.manageBooks}>
 
                 <DialogForm
                     dialogRef={dialogRef}
@@ -102,6 +104,7 @@ export default function BookManagement() {
                     }
                 </DialogForm>
 
+                <Dashboard /> <br />
                 <div className="dialog-open-btn">
                     <Button onClick={selectedType === "addBookForm" ? handleCreateBookDialog : handleCreateDialog} label="Create +" />
                 </div>
@@ -110,7 +113,7 @@ export default function BookManagement() {
                     onIssue={submitIssueBook} onClose={() => setShowIssueModal(false)} />}
 
                 <SearchBar value={search} onChange={setSearch} />
-                <div className="view-books">
+                <div className={styles.viewBooks}>
                     <table border={1} cellPadding={12}>
                         <thead>
                             <tr>
@@ -133,7 +136,7 @@ export default function BookManagement() {
                                     <td>{book.copies.filter(copy => !copy.isAvailable).length}</td>
                                     <td>{book.copies.filter(copy => copy.isAvailable).length}</td>
                                     <td>
-                                        <div className="issue-btns">
+                                        <div className={styles.issueBtns}>
                                             {book.copies.map(copy => (
                                                 <div key={copy._id}>
                                                     <span>{copy.serialNumber}</span>
@@ -143,13 +146,13 @@ export default function BookManagement() {
                                                             setSelectedSerial(copy.serialNumber);
                                                             setShowIssueModal(true);
                                                         }} />
-                                                    ) : (<Button label="Return" />)}
+                                                    ) : (<Button label="Return" onClick={() => handleReturn(book._id, copy.serialNumber)} />)}
                                                 </div>
                                             ))}
                                         </div>
                                     </td>
                                     <td>
-                                        <div className="action-btns">
+                                        <div className={styles.actionBtns}>
                                             <Button onClick={() => handleEditBookDialog(book)} label="Update" />
                                             <Button onClick={() => handleDeleteBook(book._id)} label="Delete" />
                                         </div>

@@ -37,8 +37,8 @@ export async function IssueBooks(bookId, issueData) {
     return res.data;
 };
 
-export async function ReturnBooks(bookId, returnData) {
-    const res = await apiClient.post(`/book/return/${bookId}`, returnData, {
+export async function ReturnBooks(bookId, serialNumber) {
+    const res = await apiClient.post(`/book/return/${bookId}`, serialNumber, {
         headers: getAuthHeaders()
     });
     return res.data;

@@ -1,4 +1,4 @@
-import { CreateBooks, DeleteBook, GetBooks, IssueBooks, UpdateBooks } from "@/services/BookService";
+import { CreateBooks, DeleteBook, GetBooks, IssueBooks, ReturnBooks, UpdateBooks } from "@/services/BookService";
 import { validateBook } from "@/utils/validation";
 import { useRef, useState } from "react";
 import { toast } from "react-toastify";
@@ -158,7 +158,18 @@ export default function useBookFunction(books, setBooks) {
             setShowIssueModal(false);
             toast.success("Book issued successfully!");
         } catch (err) {
-            toast.error(err.response?.data?.message || "Failed to issue Book!");
+            toast.error(err.response?.data?.message || "Failed to issue book!");
+        }
+    }
+
+    const handleReturn = async (selectedBookId, serialNumber) => {
+        try {
+            await ReturnBooks(selectedBookId, { serialNumber });
+            const updatedBooks = await GetBooks();
+            setBooks(updatedBooks.data);
+            toast.success("Book returned successfully!");
+        } catch (err) {
+            toast.error(err.response?.data?.message || "Failed to return book");
         }
     }
 
@@ -166,6 +177,6 @@ export default function useBookFunction(books, setBooks) {
         setSelectedBookId, setSelectedSerial, setShowIssueModal, editBookId, setEditBookId, dialogRef,
         handleCreateBook, handleUpdateBook, handleBookChange, createBook, bookErrors, handleCreateBookDialog, handleCopyChange,
         addCopyField, removeCopyField, handleEditBookClick, handleEditBookDialog, handleDeleteBook, submitIssueBook, showIssueModal,
-        selectedSerial
+        selectedSerial, handleReturn
     }
 }

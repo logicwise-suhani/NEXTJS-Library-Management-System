@@ -77,9 +77,8 @@ a {
   object-fit: cover;
 }
 
-.manage-users,
-.manage-books {
-  margin: 70px 650px;
+.manage-users {
+  margin: 70px 260px;
   padding: 20px 40px;
 }
 
