@@ -1,9 +1,7 @@
+import Transaction from "./Transaction";
+
 export default function UserPage() {
-
     return (
-        <>
-            <h2>User Page</h2>
-        </>
-
+        <Transaction />
     )
 }
