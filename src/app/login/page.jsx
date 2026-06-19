@@ -5,8 +5,8 @@ import { login } from "@/lib/api";
 import Button from "@/components/Button/Button";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import { fields } from "@/utils/formFields";
-import { validate } from "@/utils/adminValidation";
+import { allFields, loginFields } from "@/utils/formFields";
+import { validate } from "@/utils/validation";
 import Image from "next/image";
 import Form from "@/components/Form/Form";
 import styles from "@/components/Form/form.module.css";
@@ -43,8 +43,7 @@ export default function Login() {
         setErrors({ ...errors, [e.target.name]: "" });
     };
 
-    const loginFields = fields.filter((field) => ["email", "password"].includes(field.name));
-
+    // console.log('allFields.loginForm', allFields.loginForm, loginFields)
     return (
         <div className="login">
 

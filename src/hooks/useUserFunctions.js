@@ -1,9 +1,9 @@
 import { CreateUsers, DeleteUser, UpdateUsers } from "@/services/UserService";
-import { validateUser } from "@/utils/userValidation";
+import { validateUser } from "@/utils/validation";
 import { useRef, useState } from "react";
 import { toast } from "react-toastify";
 
-export default function useUserFunction({ search, users, currentPage, fetchUsers }) {
+export default function useUserFunction({ search = "", users = [], currentPage = 1, fetchUsers = () => { }, } = {}) {
     const [createUser, setCreateUser] = useState({
         name: "",
         userName: "",

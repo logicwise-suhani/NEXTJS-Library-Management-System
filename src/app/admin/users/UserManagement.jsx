@@ -3,11 +3,11 @@
 import Button from "@/components/Button/Button";
 import SearchBar from "@/components/SearchBar/SearchBar";
 import useUsers from "@/hooks/useUsers";
-import { fields } from "@/utils/formFields";
+import { allFields, bookFields } from "@/utils/formFields";
 import { useEffect, useState } from "react";
 import useUserFunction from "@/hooks/useUserFunctions";
-import Form from "@/components/Form/Form";
-import styles from "@/components/Form/form.module.css";
+import useBookFunction from "@/hooks/useBookFunctions";
+import DialogForm from "@/components/Form/DialogForm";
 
 export default function UserManagement({ initialUsers = [], initialPagination }) {
     const [search, setSearch] = useState("");
@@ -17,6 +17,12 @@ export default function UserManagement({ initialUsers = [], initialPagination })
 
     const { handleCreateUser, handleUpdateUser, handleEditDialog, handleCreateDialog, handleDelete, handleChange,
         handleDialogClose, dialogRef, editUserId, createUser, errors, filteredUsers } = useUserFunction({ search, users, currentPage, fetchUsers });
+
+    const { createBook, addCopyField, handleCopyChange, removeCopyField, handleCreateBookDialog, handleBookChange,
+        bookErrors, editBookId, handleUpdateBook, handleCreateBook } = useBookFunction();
+
+    const [selectedType, setSelectedType] = useState("addStudentForm");
+    const currentFields = allFields[selectedType] || bookFields || [];
 
     useEffect(() => {
         const handlePopState = () => {
@@ -29,36 +35,57 @@ export default function UserManagement({ initialUsers = [], initialPagination })
         };
     }, []);
 
-     if (loading) {
+    if (loading) {
         return <p style={{ textAlign: "center", marginTop: "250px" }}>Loading users...</p>;
     }
 
     return (
         <>
             <div className="manage-users">
-                <dialog ref={dialogRef} className={styles.dialogForm}>
-                    <div className={styles.closeMark}>
-                        <Button onClick={handleDialogClose} label="❌" />
-                    </div>
-                    <Form
-                        fields={fields}
-                        values={createUser}
-                        errors={errors}
-                        onChange={handleChange}
-                        onSubmit={
-                            editUserId
-                                ? handleUpdateUser
-                                : handleCreateUser
-                        }
-                        submitButton={
-                            <Button type="submit" label={editUserId ? "Update" : "Create"} />}
-                    />
-                </dialog>
+
+                <DialogForm
+                    dialogRef={dialogRef}
+                    handleDialogClose={handleDialogClose}
+                    fields={currentFields}
+                    values={selectedType === "addStudentForm" ? createUser : createBook}
+                    errors={selectedType === "addStudentForm" ? errors : bookErrors}
+                    onChange={selectedType === "addStudentForm" ? handleChange : handleBookChange}
+                    onSubmit={selectedType === "addStudentForm" ? editUserId ? handleUpdateUser : handleCreateUser : editBookId ? handleUpdateBook : handleCreateBook}
+                    submitLabel={editUserId ? "Update" : "Create"}
+                    selectedType={selectedType}
+                    setSelectedType={setSelectedType}
+                >
+                    {currentFields === bookFields &&
+                        <>
+                            <h4>Serial Numbers</h4>
+                            {createBook.copies.map((copy, index) => (
+                                <div key={index}
+                                    style={{ display: "flex", gap: "10px", marginBottom: "10px", alignItems: "center", }}
+                                >
+                                    <input
+                                        placeholder="SN001"
+                                        value={copy.serialNumber}
+                                        onChange={(e) => handleCopyChange(index, e.target.value)}
+                                    />
+
+                                    {index === createBook.copies.length - 1 && (
+                                        <Button label="+" onClick={addCopyField} style={{ padding: "4px 10px", cursor: "pointer", }} />
+                                    )}
+
+                                    {createBook.copies.length > 1 && (
+                                        <Button label="−" onClick={() => removeCopyField(index)} style={{ padding: "4px 10px", cursor: "pointer", }} />
+                                    )}
+                                </div>
+                            ))}
+                            {bookErrors.copies && <p style={{ color: "red" }}>{bookErrors.copies}</p>}
+                        </>
+                    }
+                </DialogForm>
 
                 {users.length > 0 ? (
                     <div className="view-users">
                         <div className="dialog-open-btn">
-                            <Button onClick={handleCreateDialog} label="Create +" /> <br />
+                            <Button onClick={selectedType === "addStudentForm" ? handleCreateDialog : handleCreateBookDialog} label="Create +" /> <br />
                         </div>
                         <SearchBar value={search} onChange={setSearch} />
                         <table border="1" cellPadding="12px">

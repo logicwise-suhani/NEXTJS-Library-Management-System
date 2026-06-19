@@ -1,12 +1,16 @@
 "use client"
 
 import Button from "@/components/Button/Button";
-import Form from "@/components/Form/Form";
+import DialogForm from "@/components/Form/DialogForm";
+import IssueBookModal from "@/components/IssueModal/IssueBookModal";
 import SearchBar from "@/components/SearchBar/SearchBar";
 import useBookFunction from "@/hooks/useBookFunctions";
 import useBooks from "@/hooks/useBooks";
-import { bookFields } from "@/utils/formFields";
+import useUserFunction from "@/hooks/useUserFunctions";
+import { GetUsers } from "@/services/UserService";
+import { allFields, bookFields } from "@/utils/formFields";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export default function BookManagement() {
     const { books, setBooks, loading } = useBooks();
@@ -14,7 +18,16 @@ export default function BookManagement() {
     const [search, setSearch] = useState("");
 
     const { setSelectedBookId, setSelectedSerial, setShowIssueModal, editBookId, dialogRef,
-        handleCreateBook, handleUpdateBook, handleChange, createBook, errors, handleCreateDialog } = useBookFunction(books, setBooks);
+        handleCreateBook, handleUpdateBook, handleBookChange, createBook, bookErrors, handleCreateBookDialog, showIssueModal,
+        handleCopyChange, addCopyField, removeCopyField, handleEditBookDialog, handleDeleteBook, submitIssueBook, selectedSerial } = useBookFunction(books, setBooks);
+
+    const [selectedType, setSelectedType] = useState("addBookForm");
+    const currentFields = allFields[selectedType] || bookFields || [];
+
+    const { createUser, errors, handleChange, editUserId, handleCreateUser, handleUpdateUser, handleCreateDialog } =
+        useUserFunction({ search: "", users: [], currentPage: 1, fetchUsers: () => { } });
+
+    const [users, setUsers] = useState([]);
 
     useEffect(() => {
         const handlePopState = () => {
@@ -27,6 +40,18 @@ export default function BookManagement() {
         };
     }, []);
 
+    useEffect(() => {
+        const loadUsers = async () => {
+            try {
+                const allLoadedUser = await GetUsers({ page: 1, limit: 10 });
+                setUsers(allLoadedUser);
+            } catch (err) {
+                toast.error(err);
+            }
+        }
+        loadUsers();
+    }, [])
+
     if (loading) return <p style={{ textAlign: "center", marginTop: "250px" }}>Loading Books...</p>;
 
     const filteredBooks = books.filter(
@@ -37,27 +62,52 @@ export default function BookManagement() {
         <>
             <div className="manage-books">
 
-                <dialog ref={dialogRef} className="dialog-form">
-                    <div className="close-mark">
-                        <Button onClick={() => dialogRef.current?.close()} label="❌" />
-                    </div>
+                <DialogForm
+                    dialogRef={dialogRef}
+                    handleDialogClose={() => dialogRef.current?.close()}
+                    fields={currentFields}
+                    values={selectedType === "addBookForm" ? createBook : createUser}
+                    errors={selectedType === "addBookForm" ? bookErrors : errors}
+                    onChange={selectedType === "addBookForm" ? handleBookChange : handleChange}
+                    onSubmit={selectedType === "addBookForm" ? editBookId ? handleUpdateBook : handleCreateBook : editUserId ? handleUpdateUser : handleCreateUser}
+                    submitLabel={editBookId ? "Update" : "Create"}
+                    selectedType={selectedType}
+                    setSelectedType={setSelectedType}
+                >
+                    {
+                        currentFields === bookFields &&
+                        <>
+                            <h4>Serial Numbers</h4>
+                            {createBook.copies.map((copy, index) => (
+                                <div key={index}
+                                    style={{ display: "flex", gap: "10px", marginBottom: "10px", alignItems: "center", }}
+                                >
+                                    <input
+                                        placeholder="SN001"
+                                        value={copy}
+                                        onChange={(e) => handleCopyChange(index, e.target.value)}
+                                    />
 
-                    <Form
-                        fields={bookFields}
-                        onSubmit={editBookId ? handleUpdateBook : handleCreateBook}
-                        onChange={handleChange}
-                        values={createBook}
-                        errors={errors}
-                        submitButton={<Button type="submit" label={editBookId ? "Update" : "Create"} />}
-                        showLabels={true}
-                    >
-                        <h4>Serial Numbers</h4>
-                    </Form>
-                </dialog>
+                                    {index === createBook.copies.length - 1 && (
+                                        <Button label="+" onClick={addCopyField} style={{ padding: "4px 10px", cursor: "pointer", }} />
+                                    )}
+
+                                    {createBook.copies.length > 1 && (
+                                        <Button label="−" onClick={() => removeCopyField(index)} style={{ padding: "4px 10px", cursor: "pointer", }} />
+                                    )}
+                                </div>
+                            ))}
+                            {bookErrors.copies && <p style={{ color: "red" }}>{bookErrors.copies}</p>}
+                        </>
+                    }
+                </DialogForm>
 
                 <div className="dialog-open-btn">
-                    <Button onClick={handleCreateDialog} label="Create +" />
+                    <Button onClick={selectedType === "addBookForm" ? handleCreateBookDialog : handleCreateDialog} label="Create +" />
                 </div>
+
+                {showIssueModal && <IssueBookModal users={users} serialNumber={selectedSerial}
+                    onIssue={submitIssueBook} onClose={() => setShowIssueModal(false)} />}
 
                 <SearchBar value={search} onChange={setSearch} />
                 <div className="view-books">
@@ -100,8 +150,8 @@ export default function BookManagement() {
                                     </td>
                                     <td>
                                         <div className="action-btns">
-                                            <Button label="Update" />
-                                            <Button label="Delete" />
+                                            <Button onClick={() => handleEditBookDialog(book)} label="Update" />
+                                            <Button onClick={() => handleDeleteBook(book._id)} label="Delete" />
                                         </div>
                                     </td>
                                 </tr>

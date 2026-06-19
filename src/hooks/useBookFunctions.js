@@ -1,5 +1,5 @@
-import { CreateBooks } from "@/services/BookService";
-import { validateBook } from "@/utils/bookValidation";
+import { CreateBooks, DeleteBook, GetBooks, IssueBooks, UpdateBooks } from "@/services/BookService";
+import { validateBook } from "@/utils/validation";
 import { useRef, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -15,17 +15,16 @@ export default function useBookFunction(books, setBooks) {
         totalCopies: "",
         copies: ["SN001"],
     });
-    const [errors, setErrors] = useState({});
+    const [bookErrors, setBookErrors] = useState({});
     const dialogRef = useRef(null);
 
-
-    const handleChange = (e) => {
+    const handleBookChange = (e) => {
         setCreateBook({
             ...createBook,
             [e.target.name]: e.target.value,
         });
-        setErrors({
-            ...errors,
+        setBookErrors({
+            ...bookErrors,
             [e.target.name]: "",
         });
     }
@@ -35,16 +34,17 @@ export default function useBookFunction(books, setBooks) {
 
         const validateErrors = validateBook(createBook);
         if (Object.keys(validateErrors).length > 0) {
-            setErrors(validateErrors);
+            setBookErrors(validateErrors);
             return;
         }
+
         try {
             const payload = {
                 ...createBook,
                 totalCopies: Number(createBook.totalCopies),
             };
             const createdBook = await CreateBooks(payload);
-            window.dispatchEvent(new Event("refresh-dashboard"));
+            // window.dispatchEvent(new Event("refresh-dashboard"));
             setBooks((prev) => [...prev, createdBook.data]);
             toast.success("Book created successfully");
             setCreateBook({
@@ -53,20 +53,16 @@ export default function useBookFunction(books, setBooks) {
                 totalCopies: "",
                 copies: [""],
             });
-            setErrors({});
+            setBookErrors({});
             dialogRef.current?.close();
         } catch (err) {
             toast.error(err);
         }
     }
 
-    const handleUpdateBook = () => {
-
-    }
-
-    const handleCreateDialog = () => {
+    const handleCreateBookDialog = () => {
         setEditBookId(null);
-        setErrors({});
+        setBookErrors({});
         setCreateBook({
             name: "",
             author: "",
@@ -76,8 +72,100 @@ export default function useBookFunction(books, setBooks) {
         dialogRef.current?.showModal();
     }
 
+    const handleCopyChange = (index, value) => {
+        const updatedCopies = [...createBook.copies];
+        updatedCopies[index] = value.toUpperCase();
+        setCreateBook({ ...createBook, copies: updatedCopies, });
+        setBookErrors({ ...bookErrors, copies: "", });
+    };
+
+    const addCopyField = () => {
+        setCreateBook((prev) => ({ ...prev, copies: [...prev.copies, ""], }));
+    };
+
+    const removeCopyField = (index) => {
+        setCreateBook((prev) => ({ ...prev, copies: prev.copies.filter((_, i) => i !== index), }));
+    };
+
+    const handleEditBookClick = (book) => {
+        setBookErrors({});
+        setCreateBook({
+            name: book.name,
+            author: book.author,
+            totalCopies: book.totalCopies,
+            copies: Array.isArray(book.copies) ? book.copies.map((copy) => typeof copy === "string"
+                ? copy : copy?.serialNumber || "") : [""]
+        })
+        setEditBookId(book._id);
+    }
+
+    const handleUpdateBook = async (e) => {
+        e.preventDefault();
+
+        const validateErrors = validateBook(createBook);
+        if (Object.keys(validateErrors).length > 0) {
+            setBookErrors(validateErrors);
+            return;
+        }
+
+        try {
+            const payloadBookData = {
+                ...createBook,
+                totalCopies: Number(createBook.totalCopies),
+            }
+            console.log(payloadBookData)
+            const updatedBook = await UpdateBooks(editBookId, payloadBookData);
+            setBooks((prev) => prev.map((book) => book._id === editBookId ? updatedBook.data : book))
+            toast.success("Book updated successfully");
+            setCreateBook({
+                name: "",
+                author: "",
+                totalCopies: "",
+                copies: [""],
+            })
+            setEditBookId(null);
+            setBookErrors({});
+            dialogRef.current?.close();
+
+        } catch (err) {
+            toast.error(err.response?.data?.message || "Failed to update book");
+        }
+    }
+
+    const handleEditBookDialog = (book) => {
+        if (editBookId !== book._id) {
+            handleEditBookClick(book);
+        }
+        dialogRef.current?.showModal();
+    };
+
+    const handleDeleteBook = async (bookId) => {
+        try {
+            await DeleteBook(bookId);
+            toast.success("Book Deleted Successfully");
+        } catch (err) {
+            toast.error(err.response?.data?.message || "Failed to delete book")
+        }
+    }
+
+    const submitIssueBook = async (issueData) => {
+        console.log("Selected BookId:", selectedBookId)
+        console.log("IssueData:", issueData)
+        try {
+            await IssueBooks(selectedBookId, issueData);
+            const updatedBooks = await GetBooks();
+            setBooks(updatedBooks.data)
+            setShowIssueModal(false);
+            toast.success("Book issued successfully!");
+        } catch (err) {
+            toast.error(err.response?.data?.message || "Failed to issue Book!");
+        }
+    }
+
     return {
         setSelectedBookId, setSelectedSerial, setShowIssueModal, editBookId, setEditBookId, dialogRef,
-        handleCreateBook, handleUpdateBook, handleChange, createBook, errors, handleCreateDialog
+        handleCreateBook, handleUpdateBook, handleBookChange, createBook, bookErrors, handleCreateBookDialog, handleCopyChange,
+        addCopyField, removeCopyField, handleEditBookClick, handleEditBookDialog, handleDeleteBook, submitIssueBook, showIssueModal,
+        selectedSerial
     }
 }
