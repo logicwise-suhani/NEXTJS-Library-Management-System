@@ -4,7 +4,7 @@ import SearchBar from "@/components/SearchBar/SearchBar";
 import { GetBooks } from "@/services/BookService";
 import { GetTransaction } from "@/services/Transaction";
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { Toast } from "@/utils/toast";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
@@ -38,7 +38,7 @@ export default function Transaction() {
                 const allBooks = await GetBooks();
                 setBooks(allBooks.data);
             } catch (err) {
-                toast.error(err);
+                Toast.error(err);
             }
         }
         handleTransaction();

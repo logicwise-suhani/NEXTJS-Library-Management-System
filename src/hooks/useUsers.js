@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { GetUsers } from "@/services/UserService";
-import { toast } from "react-toastify";
+import { Toast } from "@/utils/toast";
 
 export default function useUsers(initialUsers = [], initialPagination = {}) {
     const [users, setUsers] = useState(initialUsers);
@@ -24,7 +24,7 @@ export default function useUsers(initialUsers = [], initialPagination = {}) {
             setCurrentPage(response.pagination.currentPage);
             setTotalPages(response.pagination.totalPages);
         } catch (err) {
-            toast.error(err?.response?.data?.message || "Failed to fetch users");
+            Toast.error(err?.response?.data?.message || "Failed to fetch users");
         } finally {
             setLoading(false);
         }

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { toast } from "react-toastify";
+import { Toast } from "@/utils/toast";
 
 const url = process.env.NEXT_PUBLIC_API_URL;
 
@@ -21,7 +21,7 @@ apiClient.interceptors.response.use(
             if (token) {
                 localStorage.removeItem("token");
                 localStorage.removeItem("role");
-                toast.error("Session expired. Please login again.");
+                Toast.error("Session expired. Please login again.");
 
                 setTimeout(() => {
                     window.location.href = "/login";
@@ -59,7 +59,7 @@ apiClient.interceptors.response.use(
         return Promise.reject(message);
     }
 );
- 
+
 export async function login(form) {
     const res = await apiClient.post("/auth/sign-in", form);
 

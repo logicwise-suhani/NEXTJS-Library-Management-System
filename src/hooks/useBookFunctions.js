@@ -1,7 +1,7 @@
 import { CreateBooks, DeleteBook, GetBooks, IssueBooks, ReturnBooks, UpdateBooks } from "@/services/BookService";
 import { validateBook } from "@/utils/validation";
 import { useRef, useState } from "react";
-import { toast } from "react-toastify";
+import { Toast } from "@/utils/toast"; 
 
 export default function useBookFunction(books, setBooks) {
 
@@ -46,7 +46,7 @@ export default function useBookFunction(books, setBooks) {
             const createdBook = await CreateBooks(payload);
             // window.dispatchEvent(new Event("refresh-dashboard"));
             setBooks((prev) => [...prev, createdBook.data]);
-            toast.success("Book created successfully");
+            Toast.success("Book created successfully");
             setCreateBook({
                 name: "",
                 author: "",
@@ -56,7 +56,7 @@ export default function useBookFunction(books, setBooks) {
             setBookErrors({});
             dialogRef.current?.close();
         } catch (err) {
-            toast.error(err);
+            Toast.error(err);
         }
     }
 
@@ -116,7 +116,7 @@ export default function useBookFunction(books, setBooks) {
             console.log(payloadBookData)
             const updatedBook = await UpdateBooks(editBookId, payloadBookData);
             setBooks((prev) => prev.map((book) => book._id === editBookId ? updatedBook.data : book))
-            toast.success("Book updated successfully");
+            Toast.success("Book updated successfully");
             setCreateBook({
                 name: "",
                 author: "",
@@ -128,7 +128,7 @@ export default function useBookFunction(books, setBooks) {
             dialogRef.current?.close();
 
         } catch (err) {
-            toast.error(err.response?.data?.message || "Failed to update book");
+            Toast.error(err.response?.data?.message || "Failed to update book");
         }
     }
 
@@ -142,9 +142,9 @@ export default function useBookFunction(books, setBooks) {
     const handleDeleteBook = async (bookId) => {
         try {
             await DeleteBook(bookId);
-            toast.success("Book Deleted Successfully");
+            Toast.success("Book Deleted Successfully");
         } catch (err) {
-            toast.error(err.response?.data?.message || "Failed to delete book")
+            Toast.error(err.response?.data?.message || "Failed to delete book")
         }
     }
 
@@ -156,9 +156,9 @@ export default function useBookFunction(books, setBooks) {
             const updatedBooks = await GetBooks();
             setBooks(updatedBooks.data)
             setShowIssueModal(false);
-            toast.success("Book issued successfully!");
+            Toast.success("Book issued successfully!");
         } catch (err) {
-            toast.error(err.response?.data?.message || "Failed to issue book!");
+            Toast.error(err.response?.data?.message || "Failed to issue book!");
         }
     }
 
@@ -167,9 +167,9 @@ export default function useBookFunction(books, setBooks) {
             await ReturnBooks(selectedBookId, { serialNumber });
             const updatedBooks = await GetBooks();
             setBooks(updatedBooks.data);
-            toast.success("Book returned successfully!");
+            Toast.success("Book returned successfully!");
         } catch (err) {
-            toast.error(err.response?.data?.message || "Failed to return book");
+            Toast.error(err.response?.data?.message || "Failed to return book");
         }
     }
 

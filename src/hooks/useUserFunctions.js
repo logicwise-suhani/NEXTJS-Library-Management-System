@@ -1,7 +1,7 @@
 import { CreateUsers, DeleteUser, UpdateUsers } from "@/services/UserService";
 import { validateUser } from "@/utils/validation";
 import { useRef, useState } from "react";
-import { toast } from "react-toastify";
+import { Toast } from "@/utils/toast";
 
 export default function useUserFunction({ search = "", users = [], currentPage = 1, fetchUsers = () => { }, } = {}) {
     const [createUser, setCreateUser] = useState({
@@ -42,10 +42,10 @@ export default function useUserFunction({ search = "", users = [], currentPage =
         try {
             await CreateUsers(createUser);
             fetchUsers(currentPage);
-            toast.success("User created successfully");
+            Toast.success("User created successfully");
             handleDialogClose();
         } catch (err) {
-            toast.error(err.response?.data?.message || "Failed to create user");
+            Toast.error(err.response?.data?.message || "Failed to create user");
         }
     }
 
@@ -104,10 +104,10 @@ export default function useUserFunction({ search = "", users = [], currentPage =
             }
             await UpdateUsers(editUserId, payload);
             fetchUsers(currentPage);
-            toast.success("User updated successfully");
+            Toast.success("User updated successfully");
             handleDialogClose();
         } catch (err) {
-            toast.error(err.response?.data?.message || "Failed to update user");
+            Toast.error(err.response?.data?.message || "Failed to update user");
         }
     }
 
@@ -115,9 +115,9 @@ export default function useUserFunction({ search = "", users = [], currentPage =
         try {
             await DeleteUser(userId);
             fetchUsers(currentPage);
-            toast.success("User Deleted Successfully");
+            Toast.success("User Deleted Successfully");
         } catch (err) {
-            toast.error(err.response?.data?.message || "Failed to delete user")
+            Toast.error(err.response?.data?.message || "Failed to delete user")
         }
     }
 

@@ -1,6 +1,6 @@
 import { GetBooks } from "@/services/BookService"
 import { useEffect, useRef, useState } from "react";
-import { toast } from "react-toastify";
+import { Toast } from "@/utils/toast";
 
 export default function useBooks(initialBooks = []) {
 
@@ -15,7 +15,7 @@ export default function useBooks(initialBooks = []) {
             console.log("Response in client: ", response)
             setBooks(response.data);
         } catch (err) {
-            toast.error(err.response?.data?.message || "Failed to fetch books");
+            Toast.error(err.response?.data?.message || "Failed to fetch books");
         } finally {
             setLoading(false);
         }

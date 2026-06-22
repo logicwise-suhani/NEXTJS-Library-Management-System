@@ -11,7 +11,7 @@ import useUserFunction from "@/hooks/useUserFunctions";
 import { GetUsers } from "@/services/UserService";
 import { allFields, bookFields } from "@/utils/formFields";
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { Toast } from "@/utils/toast";
 import styles from "./books.module.css";
 
 export default function BookManagement() {
@@ -48,7 +48,7 @@ export default function BookManagement() {
                 const allLoadedUser = await GetUsers({ page: 1, limit: 10 });
                 setUsers(allLoadedUser);
             } catch (err) {
-                toast.error(err);
+                Toast.error(err);
             }
         }
         loadUsers();

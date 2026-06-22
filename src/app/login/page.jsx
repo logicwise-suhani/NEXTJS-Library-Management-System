@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { login } from "@/lib/api";
 import Button from "@/components/Button/Button";
-import { toast } from "react-toastify";
+import { Toast } from "@/utils/toast"; 
 import { useRouter } from "next/navigation";
-import { allFields, loginFields } from "@/utils/formFields";
+import { loginFields } from "@/utils/formFields";
 import { validate } from "@/utils/validation";
 import Image from "next/image";
 import Form from "@/components/Form/Form";
@@ -41,7 +41,7 @@ export default function Login() {
                 router.push("/user");
             }
         } catch (err) {
-            toast.error(err?.message || "Login failed");
+            Toast.error(err?.message || "Login failed");
         }
     };
 
