@@ -13,6 +13,8 @@ import { allFields, bookFields } from "@/utils/formFields";
 import { useEffect, useState } from "react";
 import { Toast } from "@/utils/toast";
 import styles from "./books.module.css";
+import Table from "@/components/Table/Table";
+import { adminBookColumns } from "@/utils/tableFields";
 
 export default function BookManagement() {
     const { books, setBooks, loading } = useBooks();
@@ -114,53 +116,13 @@ export default function BookManagement() {
 
                 <SearchBar value={search} onChange={setSearch} />
                 <div className={styles.viewBooks}>
-                    <table border={1} cellPadding={12}>
-                        <thead>
-                            <tr>
-                                <th>Book</th>
-                                <th>Author</th>
-                                <th>Total Copies</th>
-                                <th>Issued Copies</th>
-                                <th>Available Copies</th>
-                                <th>Copies</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-{/* {console.log(books.length)} */}
-                        <tbody>
-                            {filteredBooks.map((book) => (
-                                <tr key={book._id}>
-                                    <td>{book.name}</td>
-                                    <td>{book.author}</td>
-                                    <td>{book.totalCopies}</td>
-                                    <td>{book.copies.filter(copy => !copy.isAvailable).length}</td>
-                                    <td>{book.copies.filter(copy => copy.isAvailable).length}</td>
-                                    <td>
-                                        <div className={styles.issueBtns}>
-                                            {book.copies.map(copy => (
-                                                <div key={copy._id}>
-                                                    <span>{copy.serialNumber}</span>
-                                                    {copy.isAvailable ? (
-                                                        <Button label="Issue" onClick={() => {
-                                                            setSelectedBookId(book._id);
-                                                            setSelectedSerial(copy.serialNumber);
-                                                            setShowIssueModal(true);
-                                                        }} />
-                                                    ) : (<Button label="Return" onClick={() => handleReturn(book._id, copy.serialNumber)} />)}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div className={styles.actionBtns}>
-                                            <Button onClick={() => handleEditBookDialog(book)} label="Update" />
-                                            <Button onClick={() => handleDeleteBook(book._id)} label="Delete" />
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table >
+                    <Table
+                        columns={adminBookColumns(setSelectedBookId, setSelectedSerial, setShowIssueModal,
+                            handleReturn, handleEditBookDialog, handleDeleteBook
+                        )}
+                        data={filteredBooks}
+                        getRowKey={(book) => book._id}
+                    />
                 </div>
             </div >
         </>

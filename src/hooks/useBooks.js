@@ -22,10 +22,11 @@ export default function useBooks(initialBooks = []) {
     }
 
     useEffect(() => {
-        if (firstRender.current) {
-            firstRender.current = false;
-            return;
-        }
+        // if (firstRender.current) {
+        //     firstRender.current = false;
+        //     return;
+        // }
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         fetchBooks();
     }, [])
 

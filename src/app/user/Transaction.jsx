@@ -5,13 +5,9 @@ import { GetBooks } from "@/services/BookService";
 import { GetTransaction } from "@/services/Transaction";
 import { useEffect, useState } from "react";
 import { Toast } from "@/utils/toast";
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-import timezone from "dayjs/plugin/timezone";
 import styles from "./transaction.module.css";
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
+import Table from "@/components/Table/Table";
+import { bookColumns, transactionColumns } from "@/utils/tableFields";
 
 export default function Transaction() {
     const [transaction, setTransaction] = useState([]);
@@ -61,32 +57,11 @@ export default function Transaction() {
                 <>
                     <p>Transactions</p>
                     <div className={styles.transactionStatus}>
-                        {/* <Table
+                        <Table
                             columns={transactionColumns}
                             data={transaction}
                             getRowKey={(row) => row._id}
-                        /> */}
-                        <table border="1" cellPadding="12px">
-                            <thead>
-                                <tr>
-                                    <th>Book</th>
-                                    <th>Book Status</th>
-                                    <th>Issue Date</th>
-                                    <th>Due Date</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                {transaction.map((tran) => (
-                                    <tr key={tran._id}>
-                                        <td>{tran?.book.name ? tran?.book.name : "N/A"}</td>
-                                        <td>{tran?.transactionType ? tran?.transactionType : "N/A"}</td>
-                                        <td>{tran?.createdAt ? dayjs(tran?.createdAt).format("YYYY-MM-DD HH:mm:ss") : "N/A"}</td>
-                                        <td>{tran?.dueDate ? dayjs(tran?.dueDate).format("YYYY-MM-DD HH:mm:ss") : "N/A"}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                        />
                     </div>
                 </>
                 : null}
@@ -94,34 +69,11 @@ export default function Transaction() {
             <br />
             <div className={styles.viewBooks}>
                 <SearchBar value={search} onChange={setSearch} />
-                {/* <Table
+                <Table
                     columns={bookColumns}
                     data={filteredBooks}
                     getRowKey={(book) => book._id}
-                /> */}
-                <table border="1" cellPadding="12px">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Author</th>
-                            <th>Total Copies</th>
-                            <th>Issued Copies</th>
-                            <th>Available Copies</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        {filteredBooks.map((book) => (
-                            <tr key={book._id}>
-                                <td>{book.name}</td>
-                                <td>{book.author}</td>
-                                <td>{book.copies.length}</td>
-                                <td>{book.copies.filter(copy => !copy.isAvailable).length}</td>
-                                <td>{book.copies.filter(copy => copy.isAvailable).length}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                />
             </div>
         </div >
     )

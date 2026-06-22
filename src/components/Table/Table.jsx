@@ -1,5 +1,5 @@
 
-export default function Table({ columns = [], data = [], getRowKey = (index) => index }) {
+export default function Table({ columns = [], data = [], getRowKey = (_, index) => index }) {
     return (
         <table border="1" cellPadding="12px">
             <thead>

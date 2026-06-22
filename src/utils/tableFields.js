@@ -1,9 +1,33 @@
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
+import Button from "@/components/Button/Button";
+import styles from "@/app/admin/books/books.module.css";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
+
+const commonFields = {
+    name: { key: "name", label: "Book" },
+    author: { key: "author", label: "Author" },
+    totalCopies: {
+        key: "total",
+        label: "Total Copies",
+        render: (row) => row.copies.length,
+    },
+    issueFields: {
+        key: "issued",
+        label: "Issued Copies",
+        render: (row) =>
+            row.copies.filter((c) => !c.isAvailable).length,
+    },
+    availableCopies: {
+        key: "available",
+        label: "Available Copies",
+        render: (row) =>
+            row.copies.filter((c) => c.isAvailable).length,
+    },
+}
 
 export const transactionColumns = [
     { key: "book", label: "Book", render: (row) => row?.book?.name ?? "N/A" },
@@ -30,23 +54,61 @@ export const transactionColumns = [
 ];
 
 export const bookColumns = [
-    { key: "name", label: "Name" },
-    { key: "author", label: "Author" },
-    {
-        key: "total",
-        label: "Total Copies",
-        render: (row) => row.copies.length,
-    },
-    {
-        key: "issued",
-        label: "Issued Copies",
-        render: (row) =>
-            row.copies.filter((c) => !c.isAvailable).length,
-    },
-    {
-        key: "available",
-        label: "Available Copies",
-        render: (row) =>
-            row.copies.filter((c) => c.isAvailable).length,
-    },
+    commonFields.name,
+    commonFields.author,
+    commonFields.totalCopies,
+    commonFields.issueFields,
+    commonFields.availableCopies,
 ];
+
+export const userColumns = (handleEditDialog, handleDelete) => [
+    { key: "name", label: "Name" },
+    { key: "userName", label: "userName" },
+    { key: "email", label: "Email" },
+    { key: "contact", label: "Contact" },
+    {
+        key: "action", label: "Action",
+        render: (row) => (
+            <div className="action-btns">
+                <Button onClick={() => handleEditDialog(row)} label="Update" />
+                <Button onClick={() => handleDelete(row._id)} label="Delete" />
+            </div>
+        )
+    },
+]
+
+export const adminBookColumns = (setSelectedBookId, setSelectedSerial, setShowIssueModal,
+    handleReturn, handleEditBookDialog, handleDeleteBook) => [
+        commonFields.name,
+        commonFields.author,
+        commonFields.totalCopies,
+        commonFields.issueFields,
+        commonFields.availableCopies,
+        {
+            key: "copies", label: "Copies",
+            render: (row) => (
+                <div className={styles.issueBtns}>
+                    {row.copies.map(copy => (
+                        <div key={copy._id}>
+                            <span>{copy.serialNumber}</span>
+                            {copy.isAvailable ? (
+                                <Button label="Issue" onClick={() => {
+                                    setSelectedBookId(row._id);
+                                    setSelectedSerial(copy.serialNumber);
+                                    setShowIssueModal(true);
+                                }} />
+                            ) : (<Button label="Return" onClick={() => handleReturn(row._id, copy.serialNumber)} />)}
+                        </div>
+                    ))}
+                </div>
+            )
+        },
+        {
+            key: "action", label: "Action", render: (row) => (
+                <div className={styles.actionBtns}>
+                    <Button onClick={() => handleEditBookDialog(row)} label="Update" />
+                    <Button onClick={() => handleDeleteBook(row._id)} label="Delete" />
+                </div>
+            )
+        }
+    ]

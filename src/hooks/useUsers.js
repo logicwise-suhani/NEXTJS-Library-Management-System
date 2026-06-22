@@ -32,12 +32,7 @@ export default function useUsers(initialUsers = [], initialPagination = {}) {
 
     useEffect(() => {
         console.log(`CLIENT useEffect triggered | firstRender=${firstRender.current} | page=${currentPage}`);
-
-        if (firstRender.current) {
-            firstRender.current = false;
-            return;
-        }
-
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         fetchUsers(currentPage);
     }, [currentPage]);
 

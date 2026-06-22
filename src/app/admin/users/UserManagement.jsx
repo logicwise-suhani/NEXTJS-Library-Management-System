@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import useUserFunction from "@/hooks/useUserFunctions";
 import useBookFunction from "@/hooks/useBookFunctions";
 import DialogForm from "@/components/Form/DialogForm";
+import Table from "@/components/Table/Table";
+import { userColumns } from "@/utils/tableFields";
 
 export default function UserManagement({ initialUsers = [], initialPagination }) {
     const [search, setSearch] = useState("");
@@ -88,34 +90,11 @@ export default function UserManagement({ initialUsers = [], initialPagination })
                             <Button onClick={selectedType === "addStudentForm" ? handleCreateDialog : handleCreateBookDialog} label="Create +" /> <br />
                         </div>
                         <SearchBar value={search} onChange={setSearch} />
-                        <table border="1" cellPadding="12px">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>userName</th>
-                                    <th>Email</th>
-                                    <th>Contact</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                {filteredUsers.map((user) => (
-                                    <tr key={user._id}>
-                                        <td>{user.name}</td>
-                                        <td>{user.userName}</td>
-                                        <td>{user.email}</td>
-                                        <td>{user.contact}</td>
-                                        <td>
-                                            <div className="action-btns">
-                                                <Button onClick={() => handleEditDialog(user)} label="Update" />
-                                                <Button onClick={() => handleDelete(user._id)} label="Delete" />
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                        <Table
+                            columns={userColumns(handleEditDialog, handleDelete)}
+                            data={filteredUsers}
+                            getRowKey={(user) => user._id}
+                        />
                     </div>
                 ) : null}
 
