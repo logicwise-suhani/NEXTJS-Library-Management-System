@@ -14,7 +14,7 @@ function Dashboard() {
         loadData();
     }, []);
 
-    if (!data) return <p style={{ color: "white" }}>Loading...</p>;
+    if (!data) return <p style={{ color: "white" }}>Getting Dashboard Data...</p>;
 
     return (
         <div className={styles.dashboard}>
