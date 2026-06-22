@@ -34,7 +34,6 @@ export default function Transaction() {
             try {
                 const getTransaction = await GetTransaction({ page: 1, limit: 10 });
                 setTransaction(getTransaction);
-
                 const allBooks = await GetBooks();
                 setBooks(allBooks.data);
             } catch (err) {
@@ -52,35 +51,41 @@ export default function Transaction() {
         <div className={styles.studentDashboard}>
             <div className={styles.libraryText}>
                 <h1>Welcome to Library!</h1>
+                {transaction.length > 0 ? <p>
+                    Logged as: <span>{transaction?.[0]?.user?.userName ?? "Loading..."}</span>
+                </p> : <span>No transactions found for this user </span>}
             </div>
 
             <br /><br /> <br /> <br />
-            <p >Logged as: <span style={{ color: "pink" }}>{transaction?.[0]?.user.userName ?? <span>Loading...</span>}</span></p>
-            <div className={styles.transactionStatus}>
-                <table border="1" cellPadding="12px">
-                    <thead>
-                        <tr>
-                            <th>Book</th>
-                            <th>Book Status</th>
-                            <th>Issue Date</th>
-                            <th>Due Date</th>
-                        </tr>
-                    </thead>
+            {transaction.length > 0 ?
+                <>
+                    <p>Transactions</p>
+                    <div className={styles.transactionStatus}>
+                        <table border="1" cellPadding="12px">
+                            <thead>
+                                <tr>
+                                    <th>Book</th>
+                                    <th>Book Status</th>
+                                    <th>Issue Date</th>
+                                    <th>Due Date</th>
+                                </tr>
+                            </thead>
 
-                    <tbody>
-                        <tr>
-                            <td>{transaction?.[0]?.book.name ? transaction?.[0]?.book.name : "N/A"}</td>
-                            <td>{transaction?.[0]?.transactionType ? transaction?.[0]?.transactionType : "N/A"}</td>
-                            <td>{dayjs(transaction?.[0]?.createdAt).format("YYYY-MM-DD HH:mm:ss")}</td>
-                            <td>
-                                {transaction?.[0]?.dueDate
-                                    ? dayjs(transaction[0].dueDate).format("YYYY-MM-DD HH:mm:ss")
-                                    : "N/A"}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                            <tbody>
+                                {transaction.map((tran) => (
+                                    <tr key={tran._id}>
+                                        <td>{tran?.book.name ? tran?.book.name : "N/A"}</td>
+                                        <td>{tran?.transactionType ? tran?.transactionType : "N/A"}</td>
+                                        <td>{tran?.createdAt ? dayjs(tran?.createdAt).format("YYYY-MM-DD HH:mm:ss") : "N/A"}</td>
+                                        <td>{tran?.dueDate ? dayjs(tran?.dueDate).format("YYYY-MM-DD HH:mm:ss") : "N/A"}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </>
+                : null}
+
 
             <br />
             <div className={styles.viewBooks}>

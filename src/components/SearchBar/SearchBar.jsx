@@ -6,7 +6,7 @@ function SearchBar({ value, onChange }) {
         <div className={styles.searchBar}>
             <input
                 type="text"
-                placeholder="Search..."
+                placeholder="🔎 Search..."
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
             />

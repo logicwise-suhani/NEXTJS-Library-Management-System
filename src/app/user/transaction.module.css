@@ -23,7 +23,11 @@
   align-items: center;
   justify-content: center;
   font-family: Lucida Sans Unicode;
-  text-align: center;
+  gap: 20px;
+}
+
+.libraryText span {
+  color: pink;
 }
 
 .transactionStatus {
