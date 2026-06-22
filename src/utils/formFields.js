@@ -40,7 +40,7 @@ export const loginFields = [
     commonFields.email,
     commonFields.password,
     {
-        name: "login", type: "radio", options: ["admin", "student"]
+        name: "login", type: "radio", options: ["admin", "user"]
     },
 ]
 

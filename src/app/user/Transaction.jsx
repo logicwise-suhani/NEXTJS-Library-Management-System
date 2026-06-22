@@ -1,8 +1,6 @@
 "use client"
 
-import Navbar from "@/components/NavBar/Navbar";
 import SearchBar from "@/components/SearchBar/SearchBar";
-import SidePanel from "@/components/SidePanel/SidePanel";
 import { GetBooks } from "@/services/BookService";
 import { GetTransaction } from "@/services/Transaction";
 import { useEffect, useState } from "react";
@@ -10,6 +8,7 @@ import { toast } from "react-toastify";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
+import styles from "./transaction.module.css";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -33,9 +32,10 @@ export default function Transaction() {
     useEffect(() => {
         async function handleTransaction() {
             try {
-                const getTransaction = await GetTransaction();
+                const getTransaction = await GetTransaction({ page: 1, limit: 10 });
                 setTransaction(getTransaction);
-                const allBooks = GetBooks();
+
+                const allBooks = await GetBooks();
                 setBooks(allBooks.data);
             } catch (err) {
                 toast.error(err);
@@ -45,18 +45,18 @@ export default function Transaction() {
     }, [])
 
     const filteredBooks = books.filter(
-        (book) => book.name.toLowerCase().includes(SearchBar.toLowerCase()) || book.name.toLowerCase().includes(SearchBar.toLowerCase())
+        (book) => book.name.toLowerCase().includes(search.toLowerCase()) || book.author.toLowerCase().includes(search.toLowerCase())
     );
 
     return (
-        <div className="student-dashboard">
-            <Navbar />
-            <SidePanel />
-            <div className="library-text">
+        <div className={styles.studentDashboard}>
+            <div className={styles.libraryText}>
                 <h1>Welcome to Library!</h1>
             </div>
 
-            <div>
+            <br /><br /> <br /> <br />
+            <p >Logged as: <span style={{ color: "pink" }}>{transaction?.[0]?.user.userName ?? <span>Loading...</span>}</span></p>
+            <div className={styles.transactionStatus}>
                 <table border="1" cellPadding="12px">
                     <thead>
                         <tr>
@@ -69,8 +69,8 @@ export default function Transaction() {
 
                     <tbody>
                         <tr>
-                            <td>{transaction?.[0]?.book.name}</td>
-                            <td>{transaction?.[0]?.transactionType}</td>
+                            <td>{transaction?.[0]?.book.name ? transaction?.[0]?.book.name : "N/A"}</td>
+                            <td>{transaction?.[0]?.transactionType ? transaction?.[0]?.transactionType : "N/A"}</td>
                             <td>{dayjs(transaction?.[0]?.createdAt).format("YYYY-MM-DD HH:mm:ss")}</td>
                             <td>
                                 {transaction?.[0]?.dueDate
@@ -83,7 +83,7 @@ export default function Transaction() {
             </div>
 
             <br />
-            <div>
+            <div className={styles.viewBooks}>
                 <SearchBar value={search} onChange={setSearch} />
                 <table border="1" cellPadding="12px">
                     <thead>
@@ -104,14 +104,11 @@ export default function Transaction() {
                                 <td>{book.copies.length}</td>
                                 <td>{book.copies.filter(copy => !copy.isAvailable).length}</td>
                                 <td>{book.copies.filter(copy => copy.isAvailable).length}</td>
-
                             </tr>
                         ))}
                     </tbody>
                 </table>
             </div>
-
         </div >
-
     )
 }

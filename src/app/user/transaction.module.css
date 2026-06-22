@@ -1,0 +1,48 @@
+.studentDashboard .viewBooks {
+  margin: 10px;
+  padding: 20px;
+}
+
+.studentDashboard p {
+  color: white;
+  text-align: left;
+  padding: 10px;
+  margin: 20px;
+  font-family: Lucida Sans Unicode;
+  font-size: 24px;
+}
+
+.libraryText {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background-color: darkcyan;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Lucida Sans Unicode;
+  text-align: center;
+}
+
+.transactionStatus {
+  margin: 10px;
+  padding: 20px;
+}
+
+.transactionStatus table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  border: 2px solid wheat;
+  color: white;
+}
+
+.viewBooks table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  border: 2px solid wheat;
+  color: white;
+}

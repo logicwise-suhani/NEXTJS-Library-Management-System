@@ -25,6 +25,15 @@ export default function Login() {
 
         try {
             const data = await login(form);
+            console.log(data.role)
+            console.log(form.login)
+            if (data.role.toUpperCase() !== form.login.toUpperCase()) {
+                setErrors(prev => ({
+                    ...prev,
+                    login: "Selected role does not match this account"
+                }));
+                return;
+            }
             localStorage.setItem("token", data.token);
             localStorage.setItem("role", data.role);
 
