@@ -126,7 +126,7 @@ export default function BookManagement() {
                                 <th>Action</th>
                             </tr>
                         </thead>
-
+{/* {console.log(books.length)} */}
                         <tbody>
                             {filteredBooks.map((book) => (
                                 <tr key={book._id}>

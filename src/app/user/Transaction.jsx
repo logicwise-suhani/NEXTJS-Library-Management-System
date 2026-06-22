@@ -61,6 +61,11 @@ export default function Transaction() {
                 <>
                     <p>Transactions</p>
                     <div className={styles.transactionStatus}>
+                        {/* <Table
+                            columns={transactionColumns}
+                            data={transaction}
+                            getRowKey={(row) => row._id}
+                        /> */}
                         <table border="1" cellPadding="12px">
                             <thead>
                                 <tr>
@@ -86,10 +91,14 @@ export default function Transaction() {
                 </>
                 : null}
 
-
             <br />
             <div className={styles.viewBooks}>
                 <SearchBar value={search} onChange={setSearch} />
+                {/* <Table
+                    columns={bookColumns}
+                    data={filteredBooks}
+                    getRowKey={(book) => book._id}
+                /> */}
                 <table border="1" cellPadding="12px">
                     <thead>
                         <tr>

@@ -1,6 +1,6 @@
 import Transaction from "./Transaction";
 
-export default function UserPage() {
+export default async function UserPage() {
     return (
         <Transaction />
     )
