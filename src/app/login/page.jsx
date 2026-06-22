@@ -25,8 +25,6 @@ export default function Login() {
 
         try {
             const data = await login(form);
-            console.log(data.role)
-            console.log(form.login)
             if (data.role.toUpperCase() !== form.login.toUpperCase()) {
                 setErrors(prev => ({
                     ...prev,

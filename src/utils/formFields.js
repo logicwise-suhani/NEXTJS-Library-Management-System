@@ -8,11 +8,9 @@ const commonFields = {
 export const createStudentFields = [
     { name: "name", label: "Name", placeholder: "Name", type: "text" },
     { name: "userName", label: "UserName", placeholder: "Username", type: "text" },
-    {
-        name: "city", label: "City", type: "select", options: ["surat", "pune", "rajkot"],
-        //  defaultValue: "pune",
-
-    },
+    // {
+    //     name: "city", label: "City", type: "select", options: ["surat", "pune", "rajkot"],
+    // },
     commonFields.email,
     commonFields.password,
     { name: "contact", label: "Contact", placeholder: "Contact", type: "text" },

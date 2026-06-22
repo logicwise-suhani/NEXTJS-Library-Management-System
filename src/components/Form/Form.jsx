@@ -31,14 +31,13 @@ export default function Form({ fields, values, errors,
                             <>
                                 {field.options.map((option) => (
                                     <label key={option}>
-                                        {option}
+                                        {option} {" "}
                                         <input
                                             type="radio"
                                             value={option}
                                             name={field.name}
                                             onChange={onChange}
-                                        // checked={(field.defaultValue ?? values[field.name]) === option}
-                                        />
+                                        /> {" "}
                                     </label>
                                 ))}
                             </>
