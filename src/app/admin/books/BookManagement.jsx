@@ -22,7 +22,7 @@ export default function BookManagement() {
     const [search, setSearch] = useState("");
 
     const { setSelectedBookId, setSelectedSerial, setShowIssueModal, editBookId, dialogRef,
-        handleCreateBook, handleUpdateBook, handleBookChange, createBook, bookErrors, handleCreateBookDialog, showIssueModal,
+        handleCreateBook, handleUpdateBook, handleBookChange, createBook, bookErrors, handleCreateBookDialog, showIssueModal, selectedBookId,
         handleCopyChange, addCopyField, removeCopyField, handleEditBookDialog, handleDeleteBook, submitIssueBook, selectedSerial, handleReturn } = useBookFunction(books, setBooks);
 
     const [selectedType, setSelectedType] = useState("addBookForm");
@@ -111,15 +111,21 @@ export default function BookManagement() {
                     <Button onClick={selectedType === "addBookForm" ? handleCreateBookDialog : handleCreateDialog} label="Create +" />
                 </div>
 
-                {showIssueModal && <IssueBookModal users={users} serialNumber={selectedSerial}
-                    onIssue={submitIssueBook} onClose={() => setShowIssueModal(false)} />}
+                {showIssueModal &&
+                    <IssueBookModal
+                        users={users}
+                        book={books.find(b => b._id === selectedBookId)}
+                        mode={showIssueModal}
+                        setSelectedSerial={setSelectedSerial}
+                        serialNumber={selectedSerial}
+                        onIssue={submitIssueBook}
+                        onReturn={handleReturn}
+                        onClose={() => setShowIssueModal(null)} />}
 
                 <SearchBar value={search} onChange={setSearch} />
                 <div className={styles.viewBooks}>
                     <Table
-                        columns={adminBookColumns(setSelectedBookId, setSelectedSerial, setShowIssueModal,
-                            handleReturn, handleEditBookDialog, handleDeleteBook
-                        )}
+                        columns={adminBookColumns(setSelectedBookId, setSelectedSerial, setShowIssueModal, handleEditBookDialog, handleDeleteBook)}
                         data={filteredBooks}
                         getRowKey={(book) => book._id}
                     />

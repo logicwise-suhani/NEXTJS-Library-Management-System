@@ -77,38 +77,43 @@ export const userColumns = (handleEditDialog, handleDelete) => [
     },
 ]
 
-export const adminBookColumns = (setSelectedBookId, setSelectedSerial, setShowIssueModal,
-    handleReturn, handleEditBookDialog, handleDeleteBook) => [
-        commonFields.name,
-        commonFields.author,
-        commonFields.totalCopies,
-        commonFields.issueFields,
-        commonFields.availableCopies,
-        {
-            key: "copies", label: "Copies",
-            render: (row) => (
-                <div className={styles.issueBtns}>
-                    {row.copies.map(copy => (
-                        <div key={copy._id}>
-                            <span>{copy.serialNumber}</span>
-                            {copy.isAvailable ? (
-                                <Button label="Issue" onClick={() => {
-                                    setSelectedBookId(row._id);
-                                    setSelectedSerial(copy.serialNumber);
-                                    setShowIssueModal(true);
-                                }} />
-                            ) : (<Button label="Return" onClick={() => handleReturn(row._id, copy.serialNumber)} />)}
-                        </div>
-                    ))}
-                </div>
-            )
-        },
-        {
-            key: "action", label: "Action", render: (row) => (
-                <div className={styles.actionBtns}>
-                    <Button onClick={() => handleEditBookDialog(row)} label="Update" />
-                    <Button onClick={() => handleDeleteBook(row._id)} label="Delete" />
-                </div>
-            )
-        }
-    ]
+export const adminBookColumns = (setSelectedBookId, setSelectedSerial, setShowIssueModal, handleEditBookDialog, handleDeleteBook) => [
+    commonFields.name,
+    commonFields.author,
+    commonFields.totalCopies,
+    commonFields.issueFields,
+    commonFields.availableCopies,
+    {
+        key: "copies",
+        label: "Copies",
+        render: (row) => (
+            <div className={styles.issueBtns}>
+                <Button
+                    label="Issue"
+                    onClick={() => {
+                        setSelectedBookId(row._id);
+                        setSelectedSerial(null);
+                        setShowIssueModal("issue");
+                    }}
+                />
+
+                <Button
+                    label="Return"
+                    onClick={() => {
+                        setSelectedBookId(row._id);
+                        setSelectedSerial(null);
+                        setShowIssueModal("return");
+                    }}
+                />
+            </div>
+        )
+    },
+    {
+        key: "action", label: "Action", render: (row) => (
+            <div className={styles.actionBtns}>
+                <Button onClick={() => handleEditBookDialog(row)} label="Update" />
+                <Button onClick={() => handleDeleteBook(row._id)} label="Delete" />
+            </div>
+        )
+    }
+]

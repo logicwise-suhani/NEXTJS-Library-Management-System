@@ -1,13 +1,13 @@
 import { CreateBooks, DeleteBook, GetBooks, IssueBooks, ReturnBooks, UpdateBooks } from "@/services/BookService";
 import { validateBook } from "@/utils/validation";
 import { useRef, useState } from "react";
-import { Toast } from "@/utils/toast"; 
+import { Toast } from "@/utils/toast";
 
 export default function useBookFunction(books, setBooks) {
 
     const [selectedBookId, setSelectedBookId] = useState(null);
     const [selectedSerial, setSelectedSerial] = useState("");
-    const [showIssueModal, setShowIssueModal] = useState(false);
+    const [showIssueModal, setShowIssueModal] = useState(null);
     const [editBookId, setEditBookId] = useState(null);
     const [createBook, setCreateBook] = useState({
         name: "",
@@ -113,7 +113,7 @@ export default function useBookFunction(books, setBooks) {
                 ...createBook,
                 totalCopies: Number(createBook.totalCopies),
             }
-            console.log(payloadBookData)
+
             const updatedBook = await UpdateBooks(editBookId, payloadBookData);
             setBooks((prev) => prev.map((book) => book._id === editBookId ? updatedBook.data : book))
             Toast.success("Book updated successfully");
@@ -162,21 +162,22 @@ export default function useBookFunction(books, setBooks) {
         }
     }
 
-    const handleReturn = async (selectedBookId, serialNumber) => {
+    const handleReturn = async ({ bookId, serialNumber }) => {
+        console.log("return running");  
         try {
-            await ReturnBooks(selectedBookId, { serialNumber });
+            await ReturnBooks(bookId, { serialNumber });
             const updatedBooks = await GetBooks();
             setBooks(updatedBooks.data);
             Toast.success("Book returned successfully!");
         } catch (err) {
             Toast.error(err.response?.data?.message || "Failed to return book");
         }
-    }
+    };
 
     return {
         setSelectedBookId, setSelectedSerial, setShowIssueModal, editBookId, setEditBookId, dialogRef,
         handleCreateBook, handleUpdateBook, handleBookChange, createBook, bookErrors, handleCreateBookDialog, handleCopyChange,
         addCopyField, removeCopyField, handleEditBookClick, handleEditBookDialog, handleDeleteBook, submitIssueBook, showIssueModal,
-        selectedSerial, handleReturn
+        selectedSerial, handleReturn, selectedBookId
     }
 }
