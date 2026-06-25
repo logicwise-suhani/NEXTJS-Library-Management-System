@@ -3,13 +3,14 @@
 import { useState } from "react";
 import { login } from "@/lib/api";
 import Button from "@/components/Button/Button";
-import { Toast } from "@/utils/toast"; 
+import { Toast } from "@/utils/toast";
 import { useRouter } from "next/navigation";
 import { loginFields } from "@/utils/formFields";
 import { validate } from "@/utils/validation";
 import Image from "next/image";
 import Form from "@/components/Form/Form";
 import styles from "@/components/Form/form.module.css";
+import AuthGuard from "@/auth/auth";
 
 export default function Login() {
     const [form, setForm] = useState({ email: "", password: "", login: "" });
@@ -51,26 +52,28 @@ export default function Login() {
     };
 
     return (
-        <div className="login">
+        <AuthGuard>
+            <div className="login">
 
-            <div className="library-image">
-                <Image src="/library.jpg" alt="Library" width={500} height={500} loading="eager" />
-            </div>
+                <div className="library-image">
+                    <Image src="/library.jpg" alt="Library" width={500} height={500} loading="eager" />
+                </div>
 
-            <div className="lib-text">
-                <h1>Welcome  <br /> to Library!</h1>
+                <div className="lib-text">
+                    <h1>Welcome  <br /> to Library!</h1>
+                </div>
+                <div className={styles.form}>
+                    <Form
+                        fields={loginFields}
+                        values={form}
+                        errors={errors}
+                        onChange={handleChange}
+                        onSubmit={handleSubmit}
+                        showLabels={true}
+                        submitButton={<Button type="submit" label="Login" />}
+                    />
+                </div>
             </div>
-            <div className={styles.form}>
-                <Form
-                    fields={loginFields}
-                    values={form}
-                    errors={errors}
-                    onChange={handleChange}
-                    onSubmit={handleSubmit}
-                    showLabels={true}
-                    submitButton={<Button type="submit" label="Login" />}
-                />
-            </div>
-        </div>
+        </AuthGuard>
     );
 }
