@@ -6,17 +6,12 @@ export default function sitemap() {
         },
 
         {
-            url: "http://localhost:3000/admin",
+            url: "http://localhost:3000/about",
             lastModified: new Date(),
         },
 
         {
-            url: "http://localhost:3000/admin/books",
-            lastModified: new Date(),
-        },
-
-        {
-            url: "http://localhost:3000/admin/users",
+            url: "http://localhost:3000/contact",
             lastModified: new Date(),
         },
 
