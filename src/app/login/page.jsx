@@ -56,12 +56,9 @@ export default function Login() {
             <div className="login">
 
                 <div className="library-image">
-                    <Image src="/library.jpg" alt="Library" width={500} height={500} loading="eager" />
+                    <Image src="/libraryImage.jpg" alt="Library" width={500} height={500} loading="eager" />
                 </div>
 
-                <div className="lib-text">
-                    <h1>Welcome  <br /> to Library!</h1>
-                </div>
                 <div className={styles.form}>
                     <Form
                         fields={loginFields}

@@ -34,9 +34,9 @@ export const pages = {
     },
 
     about: {
-        title: "About Library",
+        title: "About BookWorm",
         description:
-            "Library is a modern Library Management System that helps educational institutions manage books, members, seat bookings and reporting from one platform."
+            "BookWorm is a modern Library Management System that helps educational institutions manage books, members, seat bookings and reporting from one platform."
     },
 
     contact: {

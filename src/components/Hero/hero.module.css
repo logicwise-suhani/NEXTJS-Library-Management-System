@@ -1,0 +1,115 @@
+.navbar {
+  display: flex;
+  gap: 20px;
+  position: fixed;
+  top: 0;
+  right: 40;
+  padding: 25px;
+}
+
+.navbar p {
+  position: relative;
+  top: 12;
+  cursor: pointer;
+}
+
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4rem;
+  min-height: 100vh;
+  padding: 5rem 12rem;
+  background: linear-gradient(135deg, #0f172a, darkcyan);
+  color: #fff;
+}
+
+.hero > div:first-child {
+  flex: 1;
+  max-width: 600px;
+}
+
+.hero h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  line-height: 1.1;
+}
+
+.hero h2 {
+  font-size: 1.8rem;
+  color: #67e8f9;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.hero p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #dbeafe;
+  margin-bottom: 2rem;
+}
+
+.hero button {
+  background: linear-gradient(90deg, #06b6d4, #3b82f6);
+  color: white;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(6, 182, 212, 0.35);
+}
+
+.hero button:hover {
+  transform: translateY(-3px);
+  background: linear-gradient(90deg, #0891b2, #2563eb);
+  box-shadow: 0 12px 25px rgba(59, 130, 246, 0.45);
+}
+
+.hero > div:last-child {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero img {
+  max-width: 100%;
+  height: auto;
+  filter: drop-shadow(0 20px 35px rgba(0, 255, 255, 0.3));
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 900px) {
+  .hero {
+    flex-direction: column-reverse;
+    text-align: center;
+    padding: 4rem 5%;
+    gap: 3rem;
+  }
+
+  .hero h1 {
+    font-size: 2.7rem;
+  }
+
+  .hero h2 {
+    font-size: 1.5rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+}

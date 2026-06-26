@@ -12,7 +12,8 @@ export default function ProtectedRoute({ children, allowedRole }) {
         const role = localStorage.getItem("role");
 
         if (!token) {
-            router.replace("/login");
+            router.replace("/about");
+            // router.replace("/login");
             return;
         }
 

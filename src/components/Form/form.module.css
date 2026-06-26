@@ -7,7 +7,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid darkcyan;
+  /* border: 2px solid darkcyan; */
   padding: 40px;
   box-sizing: border-box;
 }
