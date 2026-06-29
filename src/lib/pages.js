@@ -5,7 +5,6 @@ export const pages = {
             subtitle: "From seat bookings to reporting all in one place.",
             description:
                 "Optimize your library operations with our feature-rich, user-friendly software perfect for public and private libraries.",
-            buttonText: "Get Started",
             image: "/LandingImage.webp"
         },
 

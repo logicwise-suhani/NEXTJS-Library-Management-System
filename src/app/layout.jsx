@@ -1,7 +1,8 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "@/styles/globals.css";
 import Home from "./page";
-import { ToastContainer } from "react-toastify";
+import { Icons, ToastContainer } from "react-toastify";
+import { createMetadata } from "@/utils/metadata";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,17 +14,25 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata = {
-  title: "Library Management System",
-  description: "Digital library management platform",
-};
+// export const metadata = {
+//   title: {
+//     default: "BookWorm",
+//     template: "%s | BookWorm"
+//   },
+//   icons: {
+//     icon: "/LandingImage.webp"
+//   },
+//   description: "Digital library management platform",
+// };
+
+export const metadata = createMetadata("BookWorm", "Digital library management platform");
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body>
         {children}
-        <ToastContainer/>
+        <ToastContainer />
       </body>
     </html>
   );

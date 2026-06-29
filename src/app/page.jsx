@@ -1,4 +1,3 @@
-import About from "@/components/About/About";
 import Features from "@/components/Features/Features";
 import Hero from "@/components/Hero/Hero";
 import { getPage } from "@/services/landingService";
