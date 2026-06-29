@@ -1,3 +1,5 @@
+"use client"
+
 import styles from "./navbar.module.css";
 
 
@@ -7,7 +9,7 @@ export default function Navbar() {
         <>
             <div className={styles.navbar}>
                 <h3>
-                    Library Management System
+                    BookWorm
                 </h3>
             </div>
 

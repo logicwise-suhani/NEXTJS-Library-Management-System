@@ -1,0 +1,14 @@
+.navbar {
+  display: flex;
+  gap: 20px;
+  position: fixed;
+  top: 0;
+  right: 40;
+  padding: 25px;
+}
+
+.navbar p {
+  position: relative;
+  top: 12;
+  cursor: pointer;
+}

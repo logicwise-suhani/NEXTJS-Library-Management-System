@@ -1,29 +1,12 @@
-"use client"
-
 import Image from "next/image";
 import styles from "./hero.module.css";
-import Button from "../Button/Button";
-import { redirect, useRouter } from "next/navigation";
-import { pages } from "@/lib/pages";
+import Header from "../Header/Header";
 
 export default function Hero({ hero }) {
 
-    const router = useRouter();
-
     return (
         <section className={styles.hero}>
-            <nav className={styles.navbar}>
-                {Object.keys(pages).map((page) => (
-                    <p key={page} onClick={() => {
-                        if (page === "home") {
-                            redirect("/");
-                        } else {
-                            router.push(`/${page}`)
-                        }
-                    }}>{page}</p>
-                ))}
-                <Button label="Login" onClick={() => router.push("/login")} />
-            </nav>
+            <Header />
 
             <div>
                 <h1>{hero.title}</h1>
