@@ -6,11 +6,6 @@ export default function sitemap() {
         },
 
         {
-            url: "http://localhost:3000/home",
-            lastModified: new Date(),
-        },
-
-        {
             url: "http://localhost:3000/about",
             lastModified: new Date(),
         },

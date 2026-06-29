@@ -23,6 +23,7 @@ const geistMono = Geist_Mono({
 //     icon: "/LandingImage.webp"
 //   },
 //   description: "Digital library management platform",
+//   authors: [{ name: "Monster" }, { name: "Whale" }],
 // };
 
 export const metadata = createMetadata("BookWorm", "Digital library management platform");

@@ -1,7 +1,8 @@
 export const createMetadata = (title, description) => {
 
     const defaultTitle = "BookWorm";
-    const templateTitle = `%s | ${defaultTitle} `
+    const templateTitle = `%s | ${defaultTitle}`
+    const authors = [{ name: "Monster" }, { name: "Whale" }];
 
     return {
         title: {
@@ -12,5 +13,7 @@ export const createMetadata = (title, description) => {
             icon: "/LandingImage.webp"
         },
         description,
+        authors: authors,
+        keywords: ["Library Management System", "Library", "Book management", "Books"],
     }
 }
