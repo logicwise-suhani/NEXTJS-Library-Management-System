@@ -1,4 +1,4 @@
-export const createMetadata = (title, description, url = "/", type = "website", image = "/libraryImage.jpg") => {
+export const createMetadata = (title, description, url = "/", type = "website", image = "/libraryImage.jpg", locale = "en_US") => {
 
     const defaultTitle = "BookWorm";
     // const templateTitle = `%s | ${defaultTitle}`
@@ -24,7 +24,7 @@ export const createMetadata = (title, description, url = "/", type = "website", 
             siteName: defaultTitle,
             url,
             type,
-            locale: "en_US",
+            locale,
             images: [
                 {
                     url: image,
