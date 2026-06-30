@@ -7,7 +7,7 @@ import { createMetadata } from "@/utils/metadata";
 //     description: "Reach out in case of any inquiries or your feedback."
 // };
 
-export const metadata = createMetadata("Contact Us", "Reach out in case of any inquiries.");
+export const metadata = createMetadata("Contact Us", "Reach out in case of any inquiries", "/contact");
 
 export default async function ContactSection() {
 

@@ -7,7 +7,7 @@ import { createMetadata } from "@/utils/metadata";
 //     description: "Know more about BookWorm Library Management System."
 // };
 
-export const metadata = createMetadata("About Us", "Know more about BookWorm Library Management System.");
+export const metadata = createMetadata("About Us", "Know more about BookWorm Library Management System", "/about");
 
 export default async function AboutSection() {
 
