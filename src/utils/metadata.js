@@ -14,7 +14,7 @@ export const createMetadata = (title, description, url = "/", type = "website", 
         },
         icons: {
             icon: "/LandingImage.webp"
-        },
+        }, 
         description,
         authors: authors,
         keywords: ["Library Management System", "Library", "Book management", "Books"],
@@ -34,5 +34,5 @@ export const createMetadata = (title, description, url = "/", type = "website", 
                 },
             ],
         }
-    }
+    } 
 }
