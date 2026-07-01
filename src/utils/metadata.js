@@ -7,7 +7,7 @@ export const createMetadata = (title, description, url = "/", type = "website", 
     const openGraphDescription = "Visit the library remotely"
 
     return {
-        metadataBase: new URL("http://localhost:3000"),
+        metadataBase: new URL("https://0snvr5ks-3000.inc1.devtunnels.ms"),
         title: {
             default: title || defaultTitle,
             // template: templateTitle,
