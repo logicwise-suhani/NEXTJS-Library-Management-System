@@ -5,6 +5,9 @@
   top: 0;
   right: 40;
   padding: 25px;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
 }
 
 .navbar p {

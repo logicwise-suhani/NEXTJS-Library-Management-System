@@ -73,10 +73,9 @@
 
 @media (max-width: 900px) {
   .contact {
-    flex-direction: column-reverse;
+    flex-direction: column;
     text-align: center;
-    padding: 4rem 5%;
-    gap: 3rem;
+    padding: 12rem 5%;
   }
 
   .contact h1 {
